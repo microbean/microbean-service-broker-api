@@ -35,13 +35,13 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
   private final Map<? extends String, ?> parameters;
   
-  public ProvisionBindingCommand(@NotEmpty final String bindingInstanceId,
+  public ProvisionBindingCommand(@NotEmpty final String bindingId,
                                  @NotEmpty final String serviceInstanceId,
                                  @NotEmpty final String serviceId,
                                  @NotEmpty final String planId,
                                  final BindResource bindResource,
                                  final Map<? extends String, ?> parameters) {
-    super(bindingInstanceId, serviceInstanceId, serviceId, planId);
+    super(bindingId, serviceInstanceId, serviceId, planId);
     this.bindResource = bindResource;
     if (parameters == null || parameters.isEmpty()) {
       this.parameters = Collections.emptyMap();
@@ -85,6 +85,14 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
     private final Set<? extends Map<? extends String, ?>> volumeMounts;
 
+    public Response() {
+      this(null, null, null, null);
+    }
+
+    public Response(final Map<? extends String, ?> credentials) {
+      this(credentials, null, null, null);
+    }
+    
     public Response(final Map<? extends String, ?> credentials,
                     final URI syslogDrainUri,
                     final URI routeServiceUri,

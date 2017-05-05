@@ -22,21 +22,19 @@ import javax.validation.constraints.NotEmpty;
 
 public abstract class AbstractBindingCommand extends AbstractCommand {
 
-  private final String serviceInstanceId;
+  private String serviceInstanceId;
 
-  private final String bindingInstanceId;
+  private String bindingInstanceId;
   
   private final String serviceId;
 
   private final String planId;
   
-  protected AbstractBindingCommand(@NotEmpty final String bindingInstanceId,
-                                   @NotEmpty final String serviceInstanceId,
+  protected AbstractBindingCommand(final String bindingInstanceId,
+                                   final String serviceInstanceId,
                                    @NotEmpty final String serviceId,
                                    @NotEmpty final String planId) {
     super();
-    Objects.requireNonNull(bindingInstanceId);
-    Objects.requireNonNull(serviceInstanceId);
     Objects.requireNonNull(serviceId);
     Objects.requireNonNull(planId);
     this.bindingInstanceId = bindingInstanceId;
@@ -49,10 +47,20 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
     return this.bindingInstanceId;
   }
 
+  public final void setBindingInstanceId(@NotEmpty final String bindingInstanceId) {
+    Objects.requireNonNull(bindingInstanceId);
+    this.bindingInstanceId = bindingInstanceId;
+  }
+
   public final String getServiceInstanceId() {
     return this.serviceInstanceId;
   }
 
+  public final void setServiceInstanceId(@NotEmpty final String serviceInstanceId) {
+    Objects.requireNonNull(serviceInstanceId);
+    this.serviceInstanceId = serviceInstanceId;
+  }
+  
   public final String getServiceId() {
     return this.serviceId;
   }
