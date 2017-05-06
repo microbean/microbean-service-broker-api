@@ -35,8 +35,15 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
   private final Map<? extends String, ?> parameters;
   
-  public ProvisionBindingCommand(@NotEmpty final String bindingId,
-                                 @NotEmpty final String serviceInstanceId,
+  public ProvisionBindingCommand(@NotEmpty final String serviceId,
+                                 @NotEmpty final String planId,
+                                 final BindResource bindResource,
+                                 final Map<? extends String, ?> parameters) {
+    this(null, null, serviceId, planId, bindResource, parameters);
+  }
+
+  public ProvisionBindingCommand(final String bindingId,
+                                 final String serviceInstanceId,
                                  @NotEmpty final String serviceId,
                                  @NotEmpty final String planId,
                                  final BindResource bindResource,

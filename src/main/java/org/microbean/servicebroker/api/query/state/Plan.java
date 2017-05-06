@@ -36,14 +36,14 @@ public class Plan {
   
   private final boolean free;
   
-  private final boolean bindable;
+  private final Boolean bindable;
   
   public Plan(@NotNull final String id,
               @NotEmpty final String name,
               @NotEmpty final String description,
               final Map<@NotNull ? extends String, ?> metadata,
               final boolean free,
-              final boolean bindable) {
+              final Boolean bindable) {
     super();
     Objects.requireNonNull(id);
     Objects.requireNonNull(name);
@@ -80,7 +80,7 @@ public class Plan {
     return this.free;
   }
 
-  public final boolean isBindable() {
+  public final Boolean getBindable() {
     return this.bindable;
   }
   
