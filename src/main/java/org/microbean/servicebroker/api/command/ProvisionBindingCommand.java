@@ -59,10 +59,14 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
   public static class BindResource {
 
-    private final String appGuid;
+    private String appGuid;
 
-    private final URI route;
+    private URI route;
 
+    public BindResource() {
+      super();
+    }
+    
     public BindResource(final URI route) {
       this(null, route);
     }
@@ -77,6 +81,22 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
         Objects.requireNonNull(route);
       }
       this.appGuid = appGuid;
+      this.route = route;
+    }
+
+    public String getAppGuid() {
+      return this.appGuid;
+    }
+
+    public void setAppGuid(final String appGuid) {
+      this.appGuid = appGuid;
+    }
+
+    public URI getRoute() {
+      return this.getRoute();
+    }
+
+    public void setRoute(final URI route) {
       this.route = route;
     }
     
