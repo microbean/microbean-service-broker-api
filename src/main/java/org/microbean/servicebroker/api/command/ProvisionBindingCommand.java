@@ -57,6 +57,14 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
     }
   }
 
+  public final Map<? extends String, ?> getParameters() {
+    return this.parameters;
+  }
+
+  public final BindResource getBindResource() {
+    return this.bindResource;
+  }
+
   public static class BindResource {
 
     private String appGuid;
