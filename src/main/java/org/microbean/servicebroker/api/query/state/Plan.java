@@ -37,6 +37,24 @@ public class Plan {
   private final boolean free;
   
   private final Boolean bindable;
+
+  /**
+   * The {@link Schema} object, singular, associated with this {@link
+   * Plan}.
+   *
+   * <p>The documentation for the 2.13 release of the Open Service
+   * Broker Specification is quite loose with singular and plural
+   * terms.</p>
+   *
+   * @see <a
+   * href="https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#plan-object">Plan
+   * object documentation</a>
+   *
+   * @see <a
+   * href="https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#schema-object">Schema
+   * object documentation</a>
+   */
+  private final Schema schemas;
   
   public Plan(@NotNull final String id,
               @NotEmpty final String name,
@@ -44,6 +62,16 @@ public class Plan {
               final Map<@NotNull ? extends String, ?> metadata,
               final boolean free,
               final Boolean bindable) {
+    this(id, name, description, metadata, free, bindable, null);
+  }
+
+  public Plan(@NotNull final String id,
+              @NotEmpty final String name,
+              @NotEmpty final String description,
+              final Map<@NotNull ? extends String, ?> metadata,
+              final boolean free,
+              final Boolean bindable,
+              final Schema schemas) {
     super();
     Objects.requireNonNull(id);
     Objects.requireNonNull(name);
@@ -58,6 +86,7 @@ public class Plan {
     }
     this.free = free;
     this.bindable = bindable;
+    this.schemas = schemas;
   }
 
   public final String getId() {
@@ -82,6 +111,86 @@ public class Plan {
 
   public final Boolean getBindable() {
     return this.bindable;
+  }
+
+  public final Schema getSchemas() {
+    // The singular/plural mismatch is a property of the actual
+    // specification.  :-(
+    return this.schemas;
+  }
+
+
+  /*
+   * Inner and nested classes.
+   */
+
+  
+  public static class Schema {
+    
+    public Schema(final ServiceInstance serviceInstance,
+                  final ServiceBinding serviceBinding) {
+      super();
+    }
+
+
+    /*
+     * Inner and nested classes.
+     */
+
+    
+    public static class ServiceInstance {
+
+      private final InputParameters create;
+
+      private final InputParameters update;
+      
+      public ServiceInstance(final InputParameters create,
+                             final InputParameters update) {
+        super();
+        this.create = create;
+        this.update = update;
+      }
+
+      public InputParameters getCreate() {
+        return this.create;
+      }
+
+      public InputParameters getUpdate() {
+        return this.update;
+      }
+      
+    }
+    
+    public static class ServiceBinding {
+
+      private final InputParameters create;
+      
+      public ServiceBinding(final InputParameters create) {
+        super();
+        this.create = create;
+      }
+
+      public InputParameters getCreate() {
+        return this.create;
+      }
+      
+    }
+
+    public static class InputParameters {
+
+      private final Map<? extends String, ?> parameters;
+
+      public InputParameters(final Map<? extends String, ?> parameters) {
+        super();
+        this.parameters = parameters;
+      }
+
+      public final Map<? extends String, ?> getParameters() {
+        return this.parameters;
+      }
+      
+    }
+    
   }
   
 }

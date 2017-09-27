@@ -30,7 +30,7 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
   private final String organizationGuid;
 
   private final String spaceGuid;
-  
+
   public ProvisionServiceInstanceCommand(final String instanceId,
                                          @NotEmpty final String serviceId,
                                          @NotEmpty final String planId,
@@ -38,6 +38,17 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
                                          final boolean acceptsIncomplete,
                                          @NotEmpty final String organizationGuid,
                                          @NotEmpty final String spaceGuid) {
+    this(instanceId, serviceId, planId, null, acceptsIncomplete, organizationGuid, spaceGuid, parameters);
+  }
+  
+  public ProvisionServiceInstanceCommand(final String instanceId,
+                                         @NotEmpty final String serviceId,
+                                         @NotEmpty final String planId,
+                                         final Map<? extends String, ?> context,
+                                         final boolean acceptsIncomplete,
+                                         @NotEmpty final String organizationGuid,
+                                         @NotEmpty final String spaceGuid,
+                                         final Map<? extends String, ?> parameters) {
     super(instanceId, serviceId, planId, parameters, acceptsIncomplete);
     Objects.requireNonNull(planId);
     Objects.requireNonNull(organizationGuid);

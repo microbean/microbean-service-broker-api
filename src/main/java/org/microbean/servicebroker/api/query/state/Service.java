@@ -26,6 +26,10 @@ import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @see <a
+ * href="https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#service-objects">https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#service-objects</a>
+ */
 public class Service {
 
   private final String id;
@@ -57,7 +61,7 @@ public class Service {
 
   private final Set<? extends Plan> plans;
 
-  public Service(@NotNull final String id,
+  public Service(@NotNull final String id, // GUID
                  @NotNull final String name,
                  @NotNull final String description,
                  final Set<@NotNull ? extends String> tags,

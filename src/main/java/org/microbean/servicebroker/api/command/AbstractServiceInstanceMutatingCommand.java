@@ -26,15 +26,31 @@ import java.util.Objects;
 import javax.validation.constraints.NotEmpty;
 
 public abstract class AbstractServiceInstanceMutatingCommand extends AbstractServiceInstanceCommand {
+
+  private Map<? extends String, ?> context;
   
   private Map<? extends String, ?> parameters;
-  
+
   protected AbstractServiceInstanceMutatingCommand(final String instanceId,
                                                    @NotEmpty final String serviceId,
                                                    final String planId,
                                                    final Map<? extends String, ?> parameters,
                                                    final boolean acceptsIncomplete) {
+    this(instanceId, serviceId, planId, null, parameters, acceptsIncomplete);
+  }
+  
+  protected AbstractServiceInstanceMutatingCommand(final String instanceId,
+                                                   @NotEmpty final String serviceId,
+                                                   final String planId,
+                                                   final Map<? extends String, ?> context,
+                                                   final Map<? extends String, ?> parameters,
+                                                   final boolean acceptsIncomplete) {
     super(instanceId, serviceId, planId, acceptsIncomplete);
+    if (context == null || context.isEmpty()) {
+      this.context = Collections.emptyMap();
+    } else {
+      this.context = Collections.unmodifiableMap(new HashMap<>(context));
+    }
     if (parameters == null || parameters.isEmpty()) {
       this.parameters = Collections.emptyMap();
     } else {
@@ -42,6 +58,10 @@ public abstract class AbstractServiceInstanceMutatingCommand extends AbstractSer
     }
   }
 
+  public final Map<? extends String, ?> getContext() {
+    return this.context;
+  }
+  
   public final Map<? extends String, ?> getParameters() {
     return this.parameters;
   }
