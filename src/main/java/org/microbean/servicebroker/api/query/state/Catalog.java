@@ -30,9 +30,14 @@ import javax.validation.constraints.NotNull;
 
 public class Catalog {
 
-  private final Set<? extends Service> services;
+  @NotNull
+  private final Set<@NotNull ? extends Service> services;
+
+  public Catalog() {
+    this(Collections.emptySet());
+  }
   
-  public Catalog(final Set<? extends Service> services) {
+  public Catalog(final Set<@NotNull ? extends Service> services) {
     super();
     if (services == null || services.isEmpty()) {
       this.services = Collections.emptySet();
@@ -41,12 +46,14 @@ public class Catalog {
     }
   }
 
-  public final Set<? extends Service> getServices() {
+  @NotNull
+  public final Set<@NotNull ? extends Service> getServices() {
     return this.services;
   }
 
   public static class Service {
 
+    @NotNull
     private final String id;
   
     /**
@@ -54,17 +61,19 @@ public class Catalog {
      * lowercase, no spaces.  This must be globally unique within a
      * platform marketplace."
      */
+    @NotNull
     private final String name;
 
+    @NotNull
     private final String description;
 
-    private final Set<? extends String> tags;
+    private final Set<@NotNull ? extends String> tags;
 
-    private final Set<? extends String> requires;
+    private final Set<@NotNull ? extends String> requires;
 
     private final boolean bindable;
   
-    private final Map<? extends String, ?> metadata;
+    private final Map<@NotNull ? extends String, ?> metadata;
 
     private DashboardClient dashboardClient;
 
@@ -74,7 +83,8 @@ public class Catalog {
      */
     private final boolean planUpdatable;
 
-    private final Set<? extends Plan> plans;
+    @NotEmpty
+    private final Set<@NotNull ? extends Plan> plans;
 
     public Service(@NotNull final String id, // GUID
                    @NotNull final String name,
@@ -85,7 +95,7 @@ public class Catalog {
                    final Map<@NotNull ? extends String, ?> metadata,
                    final DashboardClient dashboardClient,
                    final boolean planUpdatable,
-                   @NotEmpty final Set<? extends Plan> plans) {
+                   @NotEmpty final Set<@NotNull ? extends Plan> plans) {
       super();
       Objects.requireNonNull(id);
       Objects.requireNonNull(name);
@@ -115,23 +125,26 @@ public class Catalog {
       this.plans = Collections.unmodifiableSet(new HashSet<>(plans));
     }
 
+    @NotNull
     public final String getId() {
       return this.id;
     }
 
+    @NotNull
     public final String getName() {
       return this.name;
     }
 
+    @NotNull
     public final String getDescription() {
       return this.description;
     }
 
-    public final Set<? extends String> getTags() {
+    public final Set<@NotNull ? extends String> getTags() {
       return this.tags;
     }
 
-    public final Set<? extends String> getRequires() {
+    public final Set<@NotNull ? extends String> getRequires() {
       return this.requires;
     }
 
@@ -151,7 +164,8 @@ public class Catalog {
       return this.planUpdatable;
     }
 
-    public final Set<? extends Plan> getPlans() {
+    @NotEmpty
+    public final Set<@NotNull ? extends Plan> getPlans() {
       return this.plans;
     }
 
@@ -159,6 +173,7 @@ public class Catalog {
     /*
      * Inner and nested classes.
      */
+    
 
     public static class DashboardClient {
 
@@ -193,13 +208,16 @@ public class Catalog {
     
     public static class Plan {
 
+      @NotNull
       private final String id;
-  
+
+      @NotEmpty
       private final String name;
-  
+
+      @NotEmpty
       private final String description;
   
-      private final Map<? extends String, ?> metadata;
+      private final Map<@NotNull ? extends String, ?> metadata;
   
       private final boolean free;
   
@@ -256,19 +274,22 @@ public class Catalog {
         this.schemas = schemas;
       }
 
+      @NotNull
       public final String getId() {
         return this.id;
       }
 
+      @NotNull
       public final String getName() {
         return this.name;
       }
 
+      @NotNull
       public final String getDescription() {
         return this.description;
       }
 
-      public final Map<? extends String, ?> getMetadata() {
+      public final Map<@NotNull ? extends String, ?> getMetadata() {
         return this.metadata;
       }
 
@@ -293,10 +314,36 @@ public class Catalog {
 
   
       public static class Schema {
-    
+
+        private final ServiceInstance serviceInstance;
+
+        private final ServiceBinding serviceBinding;
+
+        public Schema() {
+          this(null, null);
+        }
+        
+        public Schema(final ServiceInstance serviceInstance) {
+          this(serviceInstance, null);
+        }
+
+        public Schema(final ServiceBinding serviceBinding) {
+          this(null, serviceBinding);
+        }
+        
         public Schema(final ServiceInstance serviceInstance,
                       final ServiceBinding serviceBinding) {
           super();
+          this.serviceInstance = serviceInstance;
+          this.serviceBinding = serviceBinding;
+        }
+
+        public final ServiceInstance getServiceInstance() {
+          return this.serviceInstance;
+        }
+
+        public final ServiceBinding getServiceBinding() {
+          return this.serviceBinding;
         }
 
 
@@ -310,7 +357,7 @@ public class Catalog {
           private final InputParameters create;
 
           private final InputParameters update;
-      
+
           public ServiceInstance(final InputParameters create,
                                  final InputParameters update) {
             super();
@@ -345,14 +392,14 @@ public class Catalog {
 
         public static class InputParameters {
 
-          private final Map<? extends String, ?> parameters;
+          private final Map<@NotNull ? extends String, ?> parameters;
 
-          public InputParameters(final Map<? extends String, ?> parameters) {
+          public InputParameters(final Map<@NotNull ? extends String, ?> parameters) {
             super();
             this.parameters = parameters;
           }
 
-          public final Map<? extends String, ?> getParameters() {
+          public final Map<@NotNull ? extends String, ?> getParameters() {
             return this.parameters;
           }
       

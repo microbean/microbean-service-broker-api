@@ -16,6 +16,8 @@
  */
 package org.microbean.servicebroker.api;
 
+import javax.validation.constraints.NotNull;
+
 import org.microbean.servicebroker.api.query.state.Catalog;
 
 import org.microbean.servicebroker.api.command.DeleteBindingCommand;
@@ -27,15 +29,20 @@ import org.microbean.servicebroker.api.command.UpdateServiceInstanceCommand;
 public abstract class ServiceBroker {
 
   public abstract Catalog getCatalog() throws ServiceBrokerException;
-  
-  public abstract ProvisionBindingCommand.Response execute(final ProvisionBindingCommand command) throws ServiceBrokerException;
 
-  public abstract DeleteBindingCommand.Response execute(final DeleteBindingCommand command) throws ServiceBrokerException;
+  @NotNull
+  public abstract ProvisionBindingCommand.Response execute(@NotNull final ProvisionBindingCommand command) throws ServiceBrokerException;
 
-  public abstract ProvisionServiceInstanceCommand.Response execute(final ProvisionServiceInstanceCommand command) throws ServiceBrokerException;
+  @NotNull
+  public abstract DeleteBindingCommand.Response execute(@NotNull final DeleteBindingCommand command) throws ServiceBrokerException;
 
-  public abstract UpdateServiceInstanceCommand.Response execute(final UpdateServiceInstanceCommand command) throws ServiceBrokerException;
+  @NotNull
+  public abstract ProvisionServiceInstanceCommand.Response execute(@NotNull final ProvisionServiceInstanceCommand command) throws ServiceBrokerException;
 
-  public abstract DeleteServiceInstanceCommand.Response execute(final DeleteServiceInstanceCommand command) throws ServiceBrokerException;
+  @NotNull
+  public abstract UpdateServiceInstanceCommand.Response execute(@NotNull final UpdateServiceInstanceCommand command) throws ServiceBrokerException;
+
+  @NotNull
+  public abstract DeleteServiceInstanceCommand.Response execute(@NotNull final DeleteServiceInstanceCommand command) throws ServiceBrokerException;
 
 }
