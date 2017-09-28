@@ -16,9 +16,7 @@
  */
 package org.microbean.servicebroker.api;
 
-import org.microbean.servicebroker.api.query.state.Binding;
 import org.microbean.servicebroker.api.query.state.Catalog;
-import org.microbean.servicebroker.api.query.state.ServiceInstance;
 
 import org.microbean.servicebroker.api.command.DeleteBindingCommand;
 import org.microbean.servicebroker.api.command.DeleteServiceInstanceCommand;
@@ -40,8 +38,4 @@ public abstract class ServiceBroker {
 
   public abstract DeleteServiceInstanceCommand.Response execute(final DeleteServiceInstanceCommand command) throws ServiceBrokerException;
 
-  public abstract ServiceInstance getServiceInstance(final String instanceId) throws ServiceBrokerException;
-
-  public abstract Binding getBinding(final String serviceInstanceId, final String bindingId) throws ServiceBrokerException;
-  
 }
