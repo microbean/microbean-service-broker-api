@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.microbean.servicebroker.api.command.state.Operation;
 
@@ -28,16 +29,30 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
 
   private final PreviousValues previousValues;
   
-  public UpdateServiceInstanceCommand(@NotEmpty final String instanceId,
+  public UpdateServiceInstanceCommand(final String instanceId,                                      
                                       @NotEmpty final String serviceId,
-                                      final String planId,
-                                      final Map<? extends String, ?> parameters,
+                                      @NotEmpty final String planId,
+                                      final Map<@NotNull ? extends String, ?> parameters,
                                       final boolean acceptsIncomplete,
                                       final PreviousValues previousValues) {
-    super(instanceId, serviceId, planId, parameters, acceptsIncomplete);
+    this(instanceId, null, serviceId, planId, parameters, acceptsIncomplete, previousValues);
+  }
+
+  public UpdateServiceInstanceCommand(final String instanceId,
+                                      final Map<@NotNull ? extends String, ?> context,
+                                      @NotEmpty final String serviceId,
+                                      @NotEmpty final String planId,
+                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      final boolean acceptsIncomplete,
+                                      final PreviousValues previousValues) {
+    super(instanceId, serviceId, planId, context, parameters, acceptsIncomplete);
     this.previousValues = previousValues;
   }
 
+  public final PreviousValues getPreviousValues() {
+    return this.previousValues;
+  }
+  
   public static class Response extends org.microbean.servicebroker.api.command.Response {
 
     private final Operation operation;
@@ -51,6 +66,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
 
   public static class PreviousValues {
 
+    @Deprecated
     private final String serviceId;
 
     private final String planId;
@@ -63,7 +79,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
       this(null, null, null, null);
     }
     
-    public PreviousValues(final String serviceId, final String planId, final String organizationId, final String spaceId) {
+    public PreviousValues(@Deprecated final String serviceId, final String planId, final String organizationId, final String spaceId) {
       super();
       this.serviceId = serviceId;
       this.planId = planId;

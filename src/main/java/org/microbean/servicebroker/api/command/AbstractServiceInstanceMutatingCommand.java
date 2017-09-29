@@ -24,26 +24,27 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public abstract class AbstractServiceInstanceMutatingCommand extends AbstractServiceInstanceCommand {
 
-  private Map<? extends String, ?> context;
+  private Map<@NotNull ? extends String, ?> context;
   
-  private Map<? extends String, ?> parameters;
+  private Map<@NotNull ? extends String, ?> parameters;
 
   protected AbstractServiceInstanceMutatingCommand(final String instanceId,
                                                    @NotEmpty final String serviceId,
-                                                   final String planId,
-                                                   final Map<? extends String, ?> parameters,
+                                                   @NotEmpty final String planId,
+                                                   final Map<@NotNull ? extends String, ?> parameters,
                                                    final boolean acceptsIncomplete) {
     this(instanceId, serviceId, planId, null, parameters, acceptsIncomplete);
   }
   
   protected AbstractServiceInstanceMutatingCommand(final String instanceId,
                                                    @NotEmpty final String serviceId,
-                                                   final String planId,
-                                                   final Map<? extends String, ?> context,
-                                                   final Map<? extends String, ?> parameters,
+                                                   @NotEmpty final String planId,
+                                                   final Map<@NotNull ? extends String, ?> context,
+                                                   final Map<@NotNull ? extends String, ?> parameters,
                                                    final boolean acceptsIncomplete) {
     super(instanceId, serviceId, planId, acceptsIncomplete);
     if (context == null || context.isEmpty()) {
@@ -58,11 +59,11 @@ public abstract class AbstractServiceInstanceMutatingCommand extends AbstractSer
     }
   }
 
-  public final Map<? extends String, ?> getContext() {
+  public final Map<@NotNull ? extends String, ?> getContext() {
     return this.context;
   }
   
-  public final Map<? extends String, ?> getParameters() {
+  public final Map<@NotNull ? extends String, ?> getParameters() {
     return this.parameters;
   }
 

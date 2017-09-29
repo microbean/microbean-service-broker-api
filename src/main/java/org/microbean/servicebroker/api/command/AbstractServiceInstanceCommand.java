@@ -23,16 +23,18 @@ import javax.validation.constraints.NotEmpty;
 public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
 
   private String instanceId;
-  
+
+  @NotEmpty
   private final String serviceId;
 
+  @NotEmpty
   private final String planId;
 
   private final boolean acceptsIncomplete;
   
   protected AbstractServiceInstanceCommand(final String instanceId,
                                            @NotEmpty final String serviceId,
-                                           final String planId,
+                                           @NotEmpty final String planId,
                                            final boolean acceptsIncomplete) {
     super();
     Objects.requireNonNull(serviceId);
@@ -51,10 +53,12 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
     this.instanceId = instanceId;
   }
 
+  @NotEmpty
   public final String getServiceId() {
     return this.serviceId;
   }
 
+  @NotEmpty
   public final String getPlanId() {
     return this.planId;
   }

@@ -28,7 +28,7 @@ import org.microbean.servicebroker.api.command.state.Operation;
 
 public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand {
 
-  public DeleteServiceInstanceCommand(@NotEmpty final String instanceId,
+  public DeleteServiceInstanceCommand(final String instanceId,
                                       @NotEmpty final String serviceId,
                                       @NotEmpty final String planId,
                                       final boolean acceptsIncomplete) {
