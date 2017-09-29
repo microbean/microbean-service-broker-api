@@ -16,10 +16,12 @@
  */
 package org.microbean.servicebroker.api;
 
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -45,28 +47,93 @@ import org.microbean.servicebroker.api.command.UpdateServiceInstanceCommand;
 
 public abstract class CompositeServiceBroker extends ServiceBroker {
 
-  private final Map<String, ServiceBroker> serviceBrokers;
+  private final Set<ServiceBroker> serviceBrokers;
 
   private final Map<String, ServiceBroker> serviceBrokersByServiceId;
 
+  private final ReadWriteLock serviceBrokersLock;
+
   private final ReadWriteLock serviceBrokerAssociationLock;
+
+  private boolean parallelServiceDiscovery;
   
   public CompositeServiceBroker() {
     super();
+    this.serviceBrokersLock = new ReentrantReadWriteLock();
     this.serviceBrokerAssociationLock = new ReentrantReadWriteLock();
-    this.serviceBrokers = new ConcurrentHashMap<>();
+    this.serviceBrokers = new HashSet<>();
     this.serviceBrokersByServiceId = new HashMap<>();
   }
-  
-  public ServiceBroker putServiceBroker(@NotNull final String key, @NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(key);
-    Objects.requireNonNull(serviceBroker);
-    return this.serviceBrokers.put(key, serviceBroker);
+
+  public boolean getParallelServiceDiscovery() {
+    return this.parallelServiceDiscovery;
   }
 
-  public ServiceBroker removeServiceBroker(@NotNull final String key) {
-    Objects.requireNonNull(key);
-    return this.serviceBrokers.remove(key);
+  public void setParallelServiceDiscovery(final boolean parallelServiceDiscovery) {
+    this.parallelServiceDiscovery = parallelServiceDiscovery;
+  }
+  
+  public final boolean addServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    try {
+      this.serviceBrokersLock.writeLock().lock();
+      return this.handleAddServiceBroker(serviceBroker);
+    } finally {
+      this.serviceBrokersLock.writeLock().unlock();
+    }
+  }
+
+  protected boolean handleAddServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    Objects.requireNonNull(serviceBroker);
+    return this.serviceBrokers.add(serviceBroker);
+  }
+
+  public final boolean removeServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    try {
+      this.serviceBrokersLock.writeLock().lock();
+      return this.handleRemoveServiceBroker(serviceBroker);
+    } finally {
+      this.serviceBrokersLock.writeLock().unlock();
+    }
+  }
+
+  protected boolean handleRemoveServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    Objects.requireNonNull(serviceBroker);
+    return this.serviceBrokers.remove(serviceBroker);
+  }
+  
+  public final Set<ServiceBroker> getServiceBrokers() {
+    try {
+      this.serviceBrokersLock.readLock().lock();
+      return this.handleGetServiceBrokers();
+    } finally {
+      this.serviceBrokersLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * Returns a {@link Set} of {@link ServiceBroker}s that semantically
+   * was built up as a result of {@link
+   * #addServiceBroker(ServiceBroker)} and {@link
+   * #removeServiceBroker(ServiceBroker)} operations.
+   *
+   * <p>Implementations of this method may return {@code null}.</p>
+   *
+   * <p>Modifications to the {@link Set} returned by this method must
+   * not be made by any mechanism other than that implemented by the
+   * {@link #handleRemoveServiceBroker(ServiceBroker)} and {@link
+   * #handleAddServiceBroker(ServiceBroker)} methods, or a {@link
+   * ConcurrentModificationException} may be thrown by the default
+   * implementation of the {@link #getCatalog()} method.</p>
+   *
+   * @return a {@link Set} of {@link ServiceBroker} instances, or
+   * {@code null}
+   *
+   * @see #getServiceBrokers()
+   *
+   * @see #getCatalog()
+   */
+  protected Set<ServiceBroker> handleGetServiceBrokers() {
+    return this.serviceBrokers;
   }
 
   protected void clearServiceBrokerAssociations() {
@@ -84,6 +151,7 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
     return this.serviceBrokersByServiceId.put(serviceId, serviceBroker);
   }
 
+  @NotNull
   protected Catalog getCatalog(@NotNull final ServiceBroker serviceBroker) throws ServiceBrokerException {
     Objects.requireNonNull(serviceBroker);
     return serviceBroker.getCatalog();
@@ -91,39 +159,74 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
 
   @NotNull
   @Override
-  public Catalog getCatalog() throws ServiceBrokerException {
+  public final Catalog getCatalog() throws ServiceBrokerException {
     Catalog returnValue = null;
-    final Iterable<? extends Entry<? extends String, ? extends ServiceBroker>> serviceBrokersEntrySet = this.serviceBrokers.entrySet();
-    if (serviceBrokersEntrySet != null) {
+    Set<ServiceBroker> serviceBrokers = null;
+    try {
+      this.serviceBrokersLock.readLock().lock();
+      serviceBrokers = this.getServiceBrokers();
+      if (serviceBrokers == null || serviceBrokers.isEmpty()) {
+        serviceBrokers = Collections.emptySet();
+      } else {
+        serviceBrokers = new HashSet<>(serviceBrokers);
+      }
+    } finally {
+      this.serviceBrokersLock.readLock().unlock();
+    }
+    assert serviceBrokers != null;
+    if (!serviceBrokers.isEmpty()) {
       final Set<Service> allServices = new HashSet<>();
       try {
         this.serviceBrokerAssociationLock.writeLock().lock();
         this.clearServiceBrokerAssociations();
-        for (final Entry<? extends String, ? extends ServiceBroker> entry : serviceBrokersEntrySet) {
-          if (entry != null) {
-            final String key = entry.getKey();
-            if (key != null) {
-              final ServiceBroker serviceBroker = entry.getValue();
-              if (serviceBroker != null) {
-                final Catalog catalog = this.getCatalog(serviceBroker);
-                if (catalog != null) {
-                  final Iterable<? extends Service> services = catalog.getServices();
-                  if (services != null) {
-                    for (final Service service : services) {
-                      if (service != null) {
-                        final String serviceId = service.getId();
-                        if (serviceId != null) {
-                          this.putServiceBrokerForServiceId(serviceId, serviceBroker);
-                          allServices.add(service);
+        final Map<Service, ServiceBroker> associations = new ConcurrentHashMap<>();
+        final Stream<ServiceBroker> serviceBrokerStream;
+        if (this.getParallelServiceDiscovery()) {
+          serviceBrokerStream = serviceBrokers.parallelStream();
+        } else {
+          serviceBrokerStream = serviceBrokers.stream();
+        }        
+        try {
+          serviceBrokerStream
+            .forEach(serviceBroker -> {
+                if (serviceBroker != null) {
+                  Catalog catalog = null;
+                  try {
+                    catalog = this.getCatalog(serviceBroker);
+                  } catch (final ServiceBrokerException serviceBrokerException) {
+                    throw new IllegalStateException(serviceBrokerException);
+                  }
+                  if (catalog != null) {
+                    final Iterable<? extends Service> services = catalog.getServices();
+                    if (services != null) {
+                      for (final Service service : services) {
+                        if (service != null) {
+                          associations.put(service, serviceBroker);
                         }
                       }
                     }
                   }
                 }
-              }
-            }
+              });
+        } catch (final IllegalStateException illegalStateException) {
+          final Throwable cause = illegalStateException.getCause();
+          if (cause instanceof ServiceBrokerException) {
+            throw (ServiceBrokerException)cause;
           }
+          throw illegalStateException;
         }
+        associations.entrySet().stream()
+          .forEach(entry -> {
+              assert entry != null;
+              final Service service = entry.getKey();
+              assert service != null;
+              final String id = service.getId();
+              if (id != null) {
+                final ServiceBroker serviceBroker = entry.getValue();
+                assert serviceBroker != null;
+                this.putServiceBrokerForServiceId(id, serviceBroker);
+              }
+            });
       } finally {
         this.serviceBrokerAssociationLock.writeLock().unlock();
       }

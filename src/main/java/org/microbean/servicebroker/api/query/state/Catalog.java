@@ -169,6 +169,35 @@ public class Catalog {
       return this.plans;
     }
 
+    @Override
+    public int hashCode() {
+      int hashCode = 37;
+      final Object id = this.getId();
+      int c = id == null ? 0 : id.hashCode();
+      hashCode = hashCode * 17 + c;
+      return hashCode;
+    }
+    
+    @Override
+    public boolean equals(final Object other) {
+      if (other == this) {
+        return true;
+      } else if (other instanceof Service) {
+        final Service her = (Service)other;
+        final Object id = this.getId();
+        if (id == null) {
+          if (her.getId() != null) {
+            return false;
+          }
+        } else if (!id.equals(her.getId())) {
+          return false;
+        }
+        return true;
+      } else {
+        return false;
+      }
+    }
+
 
     /*
      * Inner and nested classes.

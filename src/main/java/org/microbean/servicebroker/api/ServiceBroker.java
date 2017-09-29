@@ -28,6 +28,7 @@ import org.microbean.servicebroker.api.command.UpdateServiceInstanceCommand;
 
 public abstract class ServiceBroker {
 
+  @NotNull
   public abstract Catalog getCatalog() throws ServiceBrokerException;
 
   @NotNull
