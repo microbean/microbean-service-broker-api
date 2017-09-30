@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Map;
 import java.util.Objects;
@@ -45,25 +46,85 @@ import org.microbean.servicebroker.api.command.ProvisionBindingCommand;
 import org.microbean.servicebroker.api.command.ProvisionServiceInstanceCommand;
 import org.microbean.servicebroker.api.command.UpdateServiceInstanceCommand;
 
-public abstract class CompositeServiceBroker extends ServiceBroker {
+/**
+ * A {@link ServiceBroker} that multiplexes other {@link
+ * ServiceBroker}s.
+ *
+ * @author <a href="https://about.me/lairdnelson"
+ * target="_parent">Laird Nelson</a>
+ *
+ * @see ServiceBroker
+ */
+public class CompositeServiceBroker extends ServiceBroker {
 
+
+  /*
+   * Instance variables.
+   */
+
+
+  /**
+   * A {@link Set} of {@link ServiceBroker}s that this {@link
+   * CompositeServiceBroker} multiplexes.
+   *
+   * <p>This field is never {@code null}.</p>
+   *
+   * @see #handleAddServiceBroker(ServiceBroker)
+   *
+   * @see #handleRemoveServiceBroker(ServiceBroker)
+   */
+  @NotNull
   private final Set<ServiceBroker> serviceBrokers;
 
+  @NotNull
   private final Map<String, ServiceBroker> serviceBrokersByServiceId;
 
+  @NotNull
   private final ReadWriteLock serviceBrokersLock;
 
+  @NotNull
   private final ReadWriteLock serviceBrokerAssociationLock;
 
   private boolean parallelServiceDiscovery;
-  
+
+
+  /*
+   * Constructors.
+   */
+
   public CompositeServiceBroker() {
+    this(null, false);
+  }
+  
+  public CompositeServiceBroker(final boolean parallelServiceDiscovery) {
+    this(null, parallelServiceDiscovery);
+  }
+  
+  public CompositeServiceBroker(final Set<? extends ServiceBroker> serviceBrokers) {
+    this(serviceBrokers, false);
+  }
+  
+  public CompositeServiceBroker(final Set<? extends ServiceBroker> serviceBrokers, final boolean parallelServiceDiscovery) {
     super();
     this.serviceBrokersLock = new ReentrantReadWriteLock();
     this.serviceBrokerAssociationLock = new ReentrantReadWriteLock();
+    this.parallelServiceDiscovery = parallelServiceDiscovery;
     this.serviceBrokers = new HashSet<>();
     this.serviceBrokersByServiceId = new HashMap<>();
+    if (serviceBrokers != null) {
+      for (final ServiceBroker serviceBroker : serviceBrokers) {
+        if (serviceBroker != null) {
+          this.addServiceBroker(serviceBroker);
+        }
+      }
+    }
   }
+
+
+  /*
+   * Instance methods.
+   */
+  
 
   public boolean getParallelServiceDiscovery() {
     return this.parallelServiceDiscovery;
@@ -74,6 +135,10 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
   }
   
   public final boolean addServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     try {
       this.serviceBrokersLock.writeLock().lock();
       return this.handleAddServiceBroker(serviceBroker);
@@ -84,13 +149,27 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
 
   protected boolean handleAddServiceBroker(@NotNull final ServiceBroker serviceBroker) {
     Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     return this.serviceBrokers.add(serviceBroker);
   }
 
   public final boolean removeServiceBroker(@NotNull final ServiceBroker serviceBroker) {
+    Objects.requireNonNull(serviceBroker);    
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     try {
       this.serviceBrokersLock.writeLock().lock();
-      return this.handleRemoveServiceBroker(serviceBroker);
+      final boolean returnValue = this.handleRemoveServiceBroker(serviceBroker);
+      try {
+        this.serviceBrokerAssociationLock.writeLock().lock();
+        this.clearServiceBrokerAssociations(serviceBroker);
+      } finally {
+        this.serviceBrokerAssociationLock.writeLock().unlock();
+      }
+      return returnValue;
     } finally {
       this.serviceBrokersLock.writeLock().unlock();
     }
@@ -98,6 +177,9 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
 
   protected boolean handleRemoveServiceBroker(@NotNull final ServiceBroker serviceBroker) {
     Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     return this.serviceBrokers.remove(serviceBroker);
   }
   
@@ -139,6 +221,26 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
   protected void clearServiceBrokerAssociations() {
     this.serviceBrokersByServiceId.clear();
   }
+
+  protected void clearServiceBrokerAssociations(@NotNull final ServiceBroker serviceBroker) {
+    Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
+    final Iterable<Entry<String, ServiceBroker>> entrySet = this.serviceBrokersByServiceId.entrySet();
+    if (entrySet != null) {
+      final Iterator<Entry<String, ServiceBroker>> iterator = entrySet.iterator();
+      if (iterator != null && iterator.hasNext()) {
+        while (iterator.hasNext()) {
+          final Entry<String, ServiceBroker> entry = iterator.next();
+          if (entry != null && serviceBroker.equals(entry.getValue())) {
+            iterator.remove();
+          }
+        }
+      }
+    }
+      
+  }
   
   protected ServiceBroker getServiceBrokerForServiceId(@NotEmpty final String serviceId) {
     Objects.requireNonNull(serviceId);
@@ -148,12 +250,18 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
   protected ServiceBroker putServiceBrokerForServiceId(@NotEmpty final String serviceId, @NotNull final ServiceBroker serviceBroker) {
     Objects.requireNonNull(serviceId);
     Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     return this.serviceBrokersByServiceId.put(serviceId, serviceBroker);
   }
 
   @NotNull
   protected Catalog getCatalog(@NotNull final ServiceBroker serviceBroker) throws ServiceBrokerException {
     Objects.requireNonNull(serviceBroker);
+    if (serviceBroker == this) {
+      throw new IllegalArgumentException("serviceBroker == this");
+    }
     return serviceBroker.getCatalog();
   }
 
@@ -264,6 +372,29 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
   }
 
   @NotNull
+  public DeleteBindingCommand.Response execute(@NotNull final DeleteBindingCommand command) throws ServiceBrokerException {
+    Objects.requireNonNull(command);
+    DeleteBindingCommand.Response returnValue = null;
+    final String serviceId = command.getServiceId();
+    if (serviceId != null) {
+      ServiceBroker serviceBroker = null;
+      try {
+        this.serviceBrokerAssociationLock.readLock().lock();
+        serviceBroker = this.getServiceBrokerForServiceId(serviceId);
+      } finally {
+        this.serviceBrokerAssociationLock.readLock().unlock();
+      }
+      if (serviceBroker != null) {
+        returnValue = serviceBroker.execute(command);
+      }
+    }
+    if (returnValue == null) {
+      throw new InvalidServiceBrokerCommandException(command);
+    }
+    return returnValue;
+  }
+
+  @NotNull
   @Override
   public DeleteServiceInstanceCommand.Response execute(@NotNull final DeleteServiceInstanceCommand command) throws ServiceBrokerException {
     Objects.requireNonNull(command);
@@ -335,5 +466,32 @@ public abstract class CompositeServiceBroker extends ServiceBroker {
     return returnValue;
   }
 
+  /**
+   * Invokes the {@link System#identityHashCode(Object)} method with
+   * {@code this} as its argument and returns the result.
+   *
+   * @return a hashcode for this {@link CompositeServiceBroker}
+   *
+   * @see System#identityHashCode(Object)
+   */
+  @Override
+  public final int hashCode() {
+    return System.identityHashCode(this);
+  }
+
+  /**
+   * Returns {@code true} if the supplied {@link Object} is this very
+   * {@link CompositeServiceBroker} instance.
+   *
+   * @param other the {@link Object} to test; may be {@code null} in
+   * which case {@code false} will be returned
+   *
+   * @return {@code true} if the supplied {@link Object} is this very
+   * {@link CompositeServiceBroker} instance; {@code false} otherwise
+   */
+  @Override
+  public final boolean equals(final Object other) {
+    return this == other;
+  }
 
 }
