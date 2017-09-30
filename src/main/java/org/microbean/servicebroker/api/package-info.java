@@ -17,9 +17,14 @@
 
 /**
  * Provides classes and interfaces related to working with the <a
- * href="" target="_parent">Open Service Broker API</a>.
+ * href="https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md"
+ * target="_parent">Open Service Broker API</a>.
  *
- * @author <a href="http://about.me/lairdnelson"
+ * @author <a href="https://about.me/lairdnelson"
  * target="_parent">Laird Nelson</a>
+ *
+ * @see <a
+ * href="https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md">the
+ * Open Service Broker Specification</a>
  */
 package org.microbean.servicebroker.api;
