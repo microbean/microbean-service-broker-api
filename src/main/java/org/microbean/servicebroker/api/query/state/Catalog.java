@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -118,7 +119,7 @@ public class Catalog {
       if (metadata == null || metadata.isEmpty()) {
         this.metadata = Collections.emptyMap();
       } else {
-        this.metadata = new HashMap<>(metadata);
+        this.metadata = new LinkedHashMap<>(metadata);
       }
       this.dashboardClient = dashboardClient;
       this.planUpdatable = planUpdatable;
@@ -296,7 +297,7 @@ public class Catalog {
         if (metadata == null || metadata.isEmpty()) {
           this.metadata = Collections.emptyMap();
         } else {
-          this.metadata = Collections.unmodifiableMap(new HashMap<>(metadata));
+          this.metadata = Collections.unmodifiableMap(new LinkedHashMap<>(metadata));
         }
         this.free = free;
         this.bindable = bindable;
