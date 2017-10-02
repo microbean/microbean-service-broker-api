@@ -19,9 +19,8 @@ package org.microbean.servicebroker.api.query.state;
 import java.net.URI;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -43,7 +42,7 @@ public class Catalog {
     if (services == null || services.isEmpty()) {
       this.services = Collections.emptySet();
     } else {
-      this.services = Collections.unmodifiableSet(new HashSet<>(services));
+      this.services = Collections.unmodifiableSet(new LinkedHashSet<>(services));
     }
   }
 
@@ -108,12 +107,12 @@ public class Catalog {
       if (tags == null || tags.isEmpty()) {
         this.tags = Collections.emptySet();
       } else {
-        this.tags = new HashSet<>(tags);
+        this.tags = new LinkedHashSet<>(tags);
       }
       if (requires == null || requires.isEmpty()) {
         this.requires = Collections.emptySet();
       } else {
-        this.requires = new HashSet<>(requires);
+        this.requires = new LinkedHashSet<>(requires);
       }
       this.bindable = bindable;
       if (metadata == null || metadata.isEmpty()) {
@@ -123,7 +122,7 @@ public class Catalog {
       }
       this.dashboardClient = dashboardClient;
       this.planUpdatable = planUpdatable;
-      this.plans = Collections.unmodifiableSet(new HashSet<>(plans));
+      this.plans = Collections.unmodifiableSet(new LinkedHashSet<>(plans));
     }
 
     @NotNull
