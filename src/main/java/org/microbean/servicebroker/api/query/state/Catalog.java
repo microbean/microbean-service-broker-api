@@ -30,6 +30,8 @@ import javax.validation.constraints.NotNull;
 
 public class Catalog {
 
+  private Map<String, Object> properties;
+  
   @NotNull
   private final Set<@NotNull ? extends Service> services;
 
@@ -44,6 +46,15 @@ public class Catalog {
     } else {
       this.services = Collections.unmodifiableSet(new LinkedHashSet<>(services));
     }
+    this.properties = new LinkedHashMap<>();
+  }
+  
+  public Map<? extends String, ?> getProperties() {
+    return Collections.unmodifiableMap(this.properties);
+  }
+
+  public void setProperty(final String name, final Object property) {
+    this.properties.put(name, property);
   }
 
   @NotNull
