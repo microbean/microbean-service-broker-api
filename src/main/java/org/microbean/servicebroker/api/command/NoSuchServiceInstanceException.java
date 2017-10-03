@@ -24,18 +24,18 @@ public class NoSuchServiceInstanceException extends ServiceBrokerException {
 
   private static final long serialVersionUID = 1L;
 
-  private final Response response;
+  private final AbstractResponse response;
 
   public NoSuchServiceInstanceException(final String message, final Throwable cause) {
     this(message, cause, null);
   }
   
-  public NoSuchServiceInstanceException(final String message, final Throwable cause, final Response response) {
+  public NoSuchServiceInstanceException(final String message, final Throwable cause, final AbstractResponse response) {
     super(message, cause);
     this.response = response;
   }
 
-  public final Response getResponse() {
+  public final AbstractResponse getResponse() {
     return this.response;
   }
   

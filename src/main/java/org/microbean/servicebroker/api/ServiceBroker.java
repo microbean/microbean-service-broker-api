@@ -19,6 +19,7 @@ package org.microbean.servicebroker.api;
 import javax.validation.constraints.NotNull;
 
 import org.microbean.servicebroker.api.query.state.Catalog;
+import org.microbean.servicebroker.api.query.state.LastOperation;
 
 import org.microbean.servicebroker.api.command.DeleteBindingCommand;
 import org.microbean.servicebroker.api.command.DeleteServiceInstanceCommand;
@@ -28,6 +29,10 @@ import org.microbean.servicebroker.api.command.UpdateServiceInstanceCommand;
 
 public abstract class ServiceBroker {
 
+  public LastOperation getLastOperation(final String serviceId, final String serviceInstanceId, final String planId, final String operationId) throws ServiceBrokerException {
+    throw new ServiceBrokerException(new UnsupportedOperationException());
+  }
+  
   @NotNull
   public abstract Catalog getCatalog() throws ServiceBrokerException;
 

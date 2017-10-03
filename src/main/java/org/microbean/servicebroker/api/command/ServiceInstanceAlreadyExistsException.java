@@ -24,14 +24,14 @@ public class ServiceInstanceAlreadyExistsException extends ServiceBrokerExceptio
 
   private static final long serialVersionUID = 1L;
 
-  private Response response;
+  private AbstractResponse response;
   
-  public ServiceInstanceAlreadyExistsException(final String message, final Throwable cause, final Response response) {
+  public ServiceInstanceAlreadyExistsException(final String message, final Throwable cause, final AbstractResponse response) {
     super(message, cause);
     this.response = response;
   }
 
-  public Response getResponse() {
+  public AbstractResponse getResponse() {
     return this.response;
   }
   

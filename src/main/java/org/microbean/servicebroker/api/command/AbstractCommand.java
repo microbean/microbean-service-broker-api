@@ -16,7 +16,9 @@
  */
 package org.microbean.servicebroker.api.command;
 
-public abstract class AbstractCommand {
+import org.microbean.servicebroker.api.AbstractStatefulObject;
+
+public abstract class AbstractCommand extends AbstractStatefulObject {
 
   protected AbstractCommand() {
     super();

@@ -22,43 +22,43 @@ import javax.validation.constraints.NotEmpty;
 
 public abstract class AbstractBindingCommand extends AbstractCommand {
 
-  private String serviceInstanceId;
+  private String instanceId;
 
-  private String bindingInstanceId;
+  private String bindingId;
   
   private final String serviceId;
 
   private final String planId;
   
-  protected AbstractBindingCommand(final String bindingInstanceId,
-                                   final String serviceInstanceId,
+  protected AbstractBindingCommand(final String bindingId,
+                                   final String instanceId,
                                    @NotEmpty final String serviceId,
                                    @NotEmpty final String planId) {
     super();
     Objects.requireNonNull(serviceId);
     Objects.requireNonNull(planId);
-    this.bindingInstanceId = bindingInstanceId;
-    this.serviceInstanceId = serviceInstanceId;
+    this.bindingId = bindingId;
+    this.instanceId = instanceId;
     this.serviceId = serviceId;
     this.planId = planId;
   }
 
-  public final String getBindingInstanceId() {
-    return this.bindingInstanceId;
+  public final String getBindingId() {
+    return this.bindingId;
   }
 
-  public final void setBindingInstanceId(@NotEmpty final String bindingInstanceId) {
-    Objects.requireNonNull(bindingInstanceId);
-    this.bindingInstanceId = bindingInstanceId;
+  public final void setBindingId(@NotEmpty final String bindingId) {
+    Objects.requireNonNull(bindingId);
+    this.bindingId = bindingId;
   }
 
-  public final String getServiceInstanceId() {
-    return this.serviceInstanceId;
+  public final String getInstanceId() {
+    return this.instanceId;
   }
 
-  public final void setServiceInstanceId(@NotEmpty final String serviceInstanceId) {
-    Objects.requireNonNull(serviceInstanceId);
-    this.serviceInstanceId = serviceInstanceId;
+  public final void setInstanceId(@NotEmpty final String instanceId) {
+    Objects.requireNonNull(instanceId);
+    this.instanceId = instanceId;
   }
   
   public final String getServiceId() {

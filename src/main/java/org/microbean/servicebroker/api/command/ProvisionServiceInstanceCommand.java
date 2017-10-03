@@ -23,8 +23,6 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.microbean.servicebroker.api.command.state.Operation;
-
 public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMutatingCommand {
 
   private final String organizationGuid;
@@ -65,36 +63,31 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
     return this.spaceGuid;
   }
 
-  public static class Response extends org.microbean.servicebroker.api.command.Response {
+  public static class Response extends org.microbean.servicebroker.api.command.AbstractProvisioningResponse {
 
     private final URI dashboardUri;
 
-    private final Operation operation;
-
     public Response() {
-      this(null, null);
+      super(null);
+      this.dashboardUri = null;
     }
     
     public Response(final URI dashboardUri) {
-      this(dashboardUri, null);
+      super(null);
+      this.dashboardUri = dashboardUri;
     }
 
-    public Response(final Operation operation) {
+    public Response(@NotEmpty final String operation) {
       this(null, operation);
     }
     
-    public Response(final URI dashboardUri, final Operation operation) {
-      super();
+    public Response(final URI dashboardUri, @NotEmpty final String operation) {
+      super(operation);
       this.dashboardUri = dashboardUri;
-      this.operation = operation;
     }
 
     public final URI getDashboardUri() {
       return this.dashboardUri;
-    }
-
-    public final Operation getOperation() {
-      return this.operation;
     }
     
   }

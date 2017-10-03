@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.microbean.servicebroker.api.command.state.Operation;
-
 public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatingCommand {
 
   private final PreviousValues previousValues;
@@ -53,13 +51,14 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
     return this.previousValues;
   }
   
-  public static class Response extends org.microbean.servicebroker.api.command.Response {
+  public static class Response extends AbstractProvisioningResponse {
 
-    private final Operation operation;
-
-    public Response(final Operation operation) {
-      super();
-      this.operation = operation;
+    public Response() {
+      super(null);
+    }
+    
+    public Response(@NotEmpty final String operation) {
+      super(operation);
     }
     
   }
@@ -85,6 +84,22 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
       this.planId = planId;
       this.organizationId = organizationId;
       this.spaceId = spaceId;
+    }
+
+    public final String getServiceId() {
+      return this.serviceId;
+    }
+
+    public final String getPlanId() {
+      return this.planId;
+    }
+
+    public final String getOrganizationId() {
+      return this.organizationId;
+    }
+
+    public final String getSpaceId() {
+      return this.spaceId;
     }
     
   }

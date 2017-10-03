@@ -24,8 +24,6 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.microbean.servicebroker.api.command.state.Operation;
-
 public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand {
 
   public DeleteServiceInstanceCommand(final String instanceId,
@@ -35,20 +33,21 @@ public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand
     super(instanceId, serviceId, planId, acceptsIncomplete);
   }
 
-  public static class Response extends org.microbean.servicebroker.api.command.Response {
+  public static class Response extends org.microbean.servicebroker.api.command.AbstractResponse {
 
-    private final Operation operation;
+    private final String operation;
 
     public Response() {
-      this(null);
+      super();
+      this.operation = null;
     }
     
-    public Response(final Operation operation) {
+    public Response(@NotEmpty final String operation) {
       super();
       this.operation = operation;
     }
 
-    public final Operation getOperation() {
+    public final String getOperation() {
       return this.operation;
     }
     

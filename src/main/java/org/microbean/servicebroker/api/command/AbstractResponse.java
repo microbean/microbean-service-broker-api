@@ -16,27 +16,12 @@
  */
 package org.microbean.servicebroker.api.command;
 
-import java.util.Objects;
+import org.microbean.servicebroker.api.AbstractStatefulObject;
 
-import org.microbean.servicebroker.api.ServiceBrokerException;
-
-public class NoSuchBindingException extends ServiceBrokerException {
-
-  private static final long serialVersionUID = 1L;
-
-  private final AbstractResponse response;
-
-  public NoSuchBindingException(final String message, final Throwable cause) {
-    this(message, cause, null);
-  }
+public abstract class AbstractResponse extends AbstractStatefulObject {
   
-  public NoSuchBindingException(final String message, final Throwable cause, final AbstractResponse response) {
-    super(message, cause);
-    this.response = response;
-  }
-
-  public final AbstractResponse getResponse() {
-    return this.response;
+  protected AbstractResponse() {
+    super();
   }
   
 }

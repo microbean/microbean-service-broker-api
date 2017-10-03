@@ -28,10 +28,10 @@ import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class Catalog {
+import org.microbean.servicebroker.api.AbstractStatefulObject;
 
-  private Map<String, Object> properties;
-  
+public class Catalog extends AbstractStatefulObject {
+
   @NotNull
   private final Set<@NotNull ? extends Service> services;
 
@@ -46,17 +46,8 @@ public class Catalog {
     } else {
       this.services = Collections.unmodifiableSet(new LinkedHashSet<>(services));
     }
-    this.properties = new LinkedHashMap<>();
   }
   
-  public Map<? extends String, ?> getProperties() {
-    return Collections.unmodifiableMap(this.properties);
-  }
-
-  public void setProperty(final String name, final Object property) {
-    this.properties.put(name, property);
-  }
-
   @NotNull
   public final Set<@NotNull ? extends Service> getServices() {
     return this.services;

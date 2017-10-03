@@ -16,10 +16,19 @@
  */
 package org.microbean.servicebroker.api.command;
 
-public abstract class Response {
+import org.microbean.servicebroker.api.AbstractStatefulObject;
 
-  protected Response() {
+public abstract class AbstractProvisioningResponse extends AbstractResponse {
+
+  private final String operation;
+  
+  protected AbstractProvisioningResponse(final String operation) {
     super();
+    this.operation = operation;
+  }
+
+  public final String getOperation() {
+    return this.operation;
   }
   
 }

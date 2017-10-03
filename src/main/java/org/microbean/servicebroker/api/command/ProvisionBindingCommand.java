@@ -27,7 +27,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.microbean.servicebroker.api.command.state.Operation;
+import org.microbean.servicebroker.api.AbstractStatefulObject;
 
 public class ProvisionBindingCommand extends AbstractBindingCommand {
 
@@ -65,14 +65,20 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
     return this.bindResource;
   }
 
-  public static class BindResource {
 
-    private String appGuid;
+  /*
+   * Inner and nested classes.
+   */
 
-    private URI route;
+  
+  public static class BindResource extends AbstractStatefulObject {
+
+    private final String appGuid;
+
+    private final URI route;
 
     public BindResource() {
-      super();
+      this(null, null);
     }
     
     public BindResource(final URI route) {
@@ -85,32 +91,21 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
     
     public BindResource(final String appGuid, final URI route) {
       super();
-      if (appGuid == null) {
-        Objects.requireNonNull(route);
-      }
       this.appGuid = appGuid;
       this.route = route;
     }
 
-    public String getAppGuid() {
+    public final String getAppGuid() {
       return this.appGuid;
     }
 
-    public void setAppGuid(final String appGuid) {
-      this.appGuid = appGuid;
-    }
-
-    public URI getRoute() {
-      return this.getRoute();
-    }
-
-    public void setRoute(final URI route) {
-      this.route = route;
+    public final URI getRoute() {
+      return this.route;
     }
     
   }
   
-  public static class Response extends org.microbean.servicebroker.api.command.Response {
+  public static class Response extends AbstractResponse {
 
     private final Map<? extends String, ?> credentials;
 

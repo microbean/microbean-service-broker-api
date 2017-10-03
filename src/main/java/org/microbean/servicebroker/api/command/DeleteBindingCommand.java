@@ -33,7 +33,7 @@ public class DeleteBindingCommand extends AbstractBindingCommand {
     super(bindingId, serviceInstanceId, serviceId, planId);
   }
 
-  public static class Response extends org.microbean.servicebroker.api.command.Response {
+  public static class Response extends org.microbean.servicebroker.api.command.AbstractResponse {
 
     public Response() {
       super();
