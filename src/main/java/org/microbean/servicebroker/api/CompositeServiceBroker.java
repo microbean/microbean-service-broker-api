@@ -36,8 +36,12 @@ import java.util.stream.Stream;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.microbean.servicebroker.api.query.InvalidServiceBrokerQueryException;
+import org.microbean.servicebroker.api.query.LastOperationQuery;
+
 import org.microbean.servicebroker.api.query.state.Catalog;
 import org.microbean.servicebroker.api.query.state.Catalog.Service;
+import org.microbean.servicebroker.api.query.state.LastOperation;
 
 import org.microbean.servicebroker.api.command.DeleteBindingCommand;
 import org.microbean.servicebroker.api.command.DeleteServiceInstanceCommand;
@@ -485,6 +489,30 @@ public class CompositeServiceBroker extends ServiceBroker {
       throw new IllegalArgumentException("serviceBroker == this");
     }
     return serviceBroker.getCatalog();
+  }
+
+  @NotNull
+  @Override
+  public final LastOperation getLastOperation(final LastOperationQuery lastOperationQuery) throws ServiceBrokerException {
+    Objects.requireNonNull(lastOperationQuery);    
+    LastOperation returnValue = null;
+    final String serviceId = lastOperationQuery.getServiceId();
+    if (serviceId != null) {
+      ServiceBroker serviceBroker = null;
+      try {
+        this.serviceBrokerAssociationLock.readLock().lock();
+        serviceBroker = this.getServiceBrokerForServiceId(serviceId);
+      } finally {
+        this.serviceBrokerAssociationLock.readLock().unlock();
+      }
+      if (serviceBroker != null) {
+        returnValue = serviceBroker.getLastOperation(lastOperationQuery);
+      }
+    }
+    if (returnValue == null) {
+      throw new InvalidServiceBrokerQueryException(lastOperationQuery);
+    }
+    return returnValue;
   }
 
   /**
