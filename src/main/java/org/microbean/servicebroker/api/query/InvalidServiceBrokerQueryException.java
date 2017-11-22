@@ -20,19 +20,24 @@ import java.util.Objects;
 
 import org.microbean.servicebroker.api.ServiceBrokerException;
 
-public class InvalidServiceBrokerQueryException extends ServiceBrokerException {
+public class InvalidServiceBrokerQueryException extends AbstractQueryException {
 
   private static final long serialVersionUID = 1L;
 
-  private final AbstractQuery query;
-
   public InvalidServiceBrokerQueryException(final AbstractQuery query) {
-    super();
-    this.query = query;
+    super(query);
   }
 
-  public AbstractQuery getQuery() {
-    return this.query;
+  public InvalidServiceBrokerQueryException(final String message, final Throwable cause, final AbstractQuery query) {
+    super(message, cause, query);
+  }
+  
+  public InvalidServiceBrokerQueryException(final String message, final AbstractQuery query) {
+    super(message, query);
+  }
+
+  public InvalidServiceBrokerQueryException(final Throwable cause, final AbstractQuery query) {
+    super(cause, query);
   }
   
 }
