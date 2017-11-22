@@ -35,6 +35,18 @@ public abstract class ServiceBroker {
   public LastOperation getLastOperation(@NotNull final LastOperationQuery lastOperationQuery) throws ServiceBrokerException {
     throw new ServiceBrokerException(new UnsupportedOperationException());
   }
+
+  public boolean isSupportedServiceId(final String serviceId) {
+    return serviceId != null;
+  }
+
+  public boolean isSupportedPlanId(final String planId) {
+    return planId != null;
+  }
+
+  public boolean isAsynchronousOnly() {
+    return false;
+  }
   
   @NotNull
   public abstract Catalog getCatalog() throws ServiceBrokerException;

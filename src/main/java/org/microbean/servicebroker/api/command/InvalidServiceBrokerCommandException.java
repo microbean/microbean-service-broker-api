@@ -16,23 +16,24 @@
  */
 package org.microbean.servicebroker.api.command;
 
-import java.util.Objects;
-
-import org.microbean.servicebroker.api.ServiceBrokerException;
-
-public class InvalidServiceBrokerCommandException extends ServiceBrokerException {
+public class InvalidServiceBrokerCommandException extends AbstractCommandException {
 
   private static final long serialVersionUID = 1L;
 
-  private final AbstractCommand command;
-
   public InvalidServiceBrokerCommandException(final AbstractCommand command) {
-    super();
-    this.command = command;
+    super(command);
   }
 
-  public AbstractCommand getCommand() {
-    return this.command;
+  public InvalidServiceBrokerCommandException(final String message, final Throwable cause, final AbstractCommand command) {
+    super(message, cause, command);
+  }
+  
+  public InvalidServiceBrokerCommandException(final String message, final AbstractCommand command) {
+    super(message, command);
+  }
+
+  public InvalidServiceBrokerCommandException(final Throwable cause, final AbstractCommand command) {
+    super(cause, command);
   }
   
 }

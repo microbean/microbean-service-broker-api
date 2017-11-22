@@ -16,11 +16,7 @@
  */
 package org.microbean.servicebroker.api.command;
 
-import java.util.Objects;
-
-import org.microbean.servicebroker.api.ServiceBrokerException;
-
-public class NoSuchBindingException extends ServiceBrokerException {
+public class NoSuchBindingException extends AbstractCommandException {
 
   private static final long serialVersionUID = 1L;
 

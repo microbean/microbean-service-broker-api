@@ -24,6 +24,7 @@ public class LastOperationQuery extends AbstractQuery {
 
   private final String serviceId;
 
+  @NotEmpty
   private final String serviceInstanceId;
   
   private final String planId;
@@ -31,7 +32,7 @@ public class LastOperationQuery extends AbstractQuery {
   private final String operationId;
 
   public LastOperationQuery(final String serviceId,
-                            final String serviceInstanceId,
+                            @NotEmpty final String serviceInstanceId,
                             final String planId,
                             final String operationId) {
     super();
@@ -45,6 +46,7 @@ public class LastOperationQuery extends AbstractQuery {
     return this.serviceId;
   }
 
+  @NotEmpty
   public final String getServiceInstanceId() {
     return this.serviceInstanceId;
   }

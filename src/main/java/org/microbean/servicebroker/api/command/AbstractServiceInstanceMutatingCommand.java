@@ -67,4 +67,19 @@ public abstract class AbstractServiceInstanceMutatingCommand extends AbstractSer
     return this.parameters;
   }
 
+  public final <T> T getParameter(final String name, final Class<T> type) {
+    Objects.requireNonNull(name);
+    Objects.requireNonNull(type);
+    T returnValue = null;
+    final Map<? extends String, ?> parameters = this.getParameters();
+    if (parameters != null && !parameters.isEmpty()) {
+      try {
+        returnValue = type.cast(parameters.get(name));
+      } catch (final ClassCastException classCastException) {
+        returnValue = null;
+      }
+    }
+    return returnValue;
+  }
+
 }
