@@ -31,7 +31,7 @@ public class LastOperationQuery extends AbstractQuery {
   private final String operationId;
 
   public LastOperationQuery(final String serviceId,
-                            final String serviceInstanceId,
+                            final String instanceId,
                             final String planId,
                             final String operationId) {
     super();
