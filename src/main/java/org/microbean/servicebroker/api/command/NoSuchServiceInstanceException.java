@@ -22,6 +22,10 @@ public class NoSuchServiceInstanceException extends AbstractCommandException {
 
   private final AbstractResponse response;
 
+  public NoSuchServiceInstanceException(final String message) {
+    this(message, null, null);
+  }
+  
   public NoSuchServiceInstanceException(final String message, final Throwable cause) {
     this(message, cause, null);
   }
