@@ -29,6 +29,6 @@ public abstract class AbstractProvisioningResponse extends AbstractResponse {
 
   public final String getOperation() {
     return this.operation;
-  }
+  }  
   
 }

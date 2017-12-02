@@ -30,7 +30,13 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
   @NotEmpty
   private final String planId;
 
-  private final boolean acceptsIncomplete;
+  private boolean acceptsIncomplete;
+
+  protected AbstractServiceInstanceCommand(final String instanceId,
+                                           @NotEmpty final String serviceId,
+                                           @NotEmpty final String planId) {
+    this(instanceId, serviceId, planId, false);
+  }
   
   protected AbstractServiceInstanceCommand(final String instanceId,
                                            @NotEmpty final String serviceId,
@@ -65,6 +71,10 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
 
   public boolean getAcceptsIncomplete() {
     return this.acceptsIncomplete;
+  }
+
+  public void setAcceptsIncomplete(final boolean acceptsIncomplete) {
+    this.acceptsIncomplete = acceptsIncomplete;
   }
 
 }

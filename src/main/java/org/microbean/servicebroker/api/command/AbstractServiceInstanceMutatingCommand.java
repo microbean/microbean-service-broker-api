@@ -35,9 +35,24 @@ public abstract class AbstractServiceInstanceMutatingCommand extends AbstractSer
   protected AbstractServiceInstanceMutatingCommand(final String instanceId,
                                                    @NotEmpty final String serviceId,
                                                    @NotEmpty final String planId,
+                                                   final Map<@NotNull ? extends String, ?> parameters) {
+    this(instanceId, serviceId, planId, null, parameters, false);
+  }
+  
+  protected AbstractServiceInstanceMutatingCommand(final String instanceId,
+                                                   @NotEmpty final String serviceId,
+                                                   @NotEmpty final String planId,
                                                    final Map<@NotNull ? extends String, ?> parameters,
                                                    final boolean acceptsIncomplete) {
     this(instanceId, serviceId, planId, null, parameters, acceptsIncomplete);
+  }
+
+  protected AbstractServiceInstanceMutatingCommand(final String instanceId,
+                                                   @NotEmpty final String serviceId,
+                                                   @NotEmpty final String planId,
+                                                   final Map<@NotNull ? extends String, ?> context,
+                                                   final Map<@NotNull ? extends String, ?> parameters) {
+    this(instanceId, serviceId, planId, context, parameters, false);
   }
   
   protected AbstractServiceInstanceMutatingCommand(final String instanceId,

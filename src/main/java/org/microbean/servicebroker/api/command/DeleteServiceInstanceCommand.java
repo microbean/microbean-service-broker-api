@@ -28,6 +28,12 @@ public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand
 
   public DeleteServiceInstanceCommand(final String instanceId,
                                       @NotEmpty final String serviceId,
+                                      @NotEmpty final String planId) {
+    this(instanceId, serviceId, planId, false);
+  }
+  
+  public DeleteServiceInstanceCommand(final String instanceId,
+                                      @NotEmpty final String serviceId,
                                       @NotEmpty final String planId,
                                       final boolean acceptsIncomplete) {
     super(instanceId, serviceId, planId, acceptsIncomplete);

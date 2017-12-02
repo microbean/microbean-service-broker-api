@@ -26,6 +26,14 @@ import javax.validation.constraints.NotNull;
 public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatingCommand {
 
   private final PreviousValues previousValues;
+
+  public UpdateServiceInstanceCommand(final String instanceId,                                      
+                                      @NotEmpty final String serviceId,
+                                      @NotEmpty final String planId,
+                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      final PreviousValues previousValues) {
+    this(instanceId, null, serviceId, planId, parameters, false, previousValues);
+  }
   
   public UpdateServiceInstanceCommand(final String instanceId,                                      
                                       @NotEmpty final String serviceId,
@@ -36,6 +44,15 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
     this(instanceId, null, serviceId, planId, parameters, acceptsIncomplete, previousValues);
   }
 
+  public UpdateServiceInstanceCommand(final String instanceId,
+                                      final Map<@NotNull ? extends String, ?> context,
+                                      @NotEmpty final String serviceId,
+                                      @NotEmpty final String planId,
+                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      final PreviousValues previousValues) {
+    this(instanceId, context, serviceId, planId, parameters, false, previousValues);
+  }
+  
   public UpdateServiceInstanceCommand(final String instanceId,
                                       final Map<@NotNull ? extends String, ?> context,
                                       @NotEmpty final String serviceId,

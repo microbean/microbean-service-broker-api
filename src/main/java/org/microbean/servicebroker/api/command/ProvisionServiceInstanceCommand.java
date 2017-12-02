@@ -33,10 +33,29 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
                                          @NotEmpty final String serviceId,
                                          @NotEmpty final String planId,
                                          final Map<? extends String, ?> parameters,
+                                         @NotEmpty final String organizationGuid,
+                                         @NotEmpty final String spaceGuid) {
+    this(instanceId, serviceId, planId, null, false, organizationGuid, spaceGuid, parameters);
+  }
+  
+  public ProvisionServiceInstanceCommand(final String instanceId,
+                                         @NotEmpty final String serviceId,
+                                         @NotEmpty final String planId,
+                                         final Map<? extends String, ?> parameters,
                                          final boolean acceptsIncomplete,
                                          @NotEmpty final String organizationGuid,
                                          @NotEmpty final String spaceGuid) {
     this(instanceId, serviceId, planId, null, acceptsIncomplete, organizationGuid, spaceGuid, parameters);
+  }
+  
+  public ProvisionServiceInstanceCommand(final String instanceId,
+                                         @NotEmpty final String serviceId,
+                                         @NotEmpty final String planId,
+                                         final Map<? extends String, ?> context,
+                                         @NotEmpty final String organizationGuid,
+                                         @NotEmpty final String spaceGuid,
+                                         final Map<? extends String, ?> parameters) {
+    this(instanceId, serviceId, planId, context, false, organizationGuid, spaceGuid, parameters);
   }
   
   public ProvisionServiceInstanceCommand(final String instanceId,
