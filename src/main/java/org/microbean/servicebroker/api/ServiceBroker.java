@@ -36,14 +36,16 @@ public abstract class ServiceBroker {
     throw new ServiceBrokerException(new UnsupportedOperationException());
   }
 
-  public boolean isSupportedServiceId(final String serviceId) {
+  public boolean isSupportedServiceId(final String serviceId) throws ServiceBrokerException {
     return serviceId != null;
   }
 
-  public boolean isSupportedPlanId(final String planId) {
+  public boolean isSupportedPlanId(final String serviceId, final String planId) throws ServiceBrokerException {
     return planId != null;
   }
 
+  public abstract boolean isPlanBindable(final String serviceId, final String planId) throws ServiceBrokerException;
+  
   public boolean isAsynchronousOnly() {
     return false;
   }

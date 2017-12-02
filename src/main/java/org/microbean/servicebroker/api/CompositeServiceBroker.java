@@ -452,6 +452,27 @@ public class CompositeServiceBroker extends ServiceBroker {
     return this.serviceBrokersByServiceId.put(serviceId, serviceBroker);
   }
 
+  @Override
+  public boolean isPlanBindable(final String serviceId, final String planId) throws ServiceBrokerException {
+    Objects.requireNonNull(serviceId);
+    Objects.requireNonNull(planId);
+
+    boolean returnValue = false;
+    
+    ServiceBroker serviceBroker = null;
+    try {
+      this.serviceBrokerAssociationLock.readLock().lock();
+      serviceBroker = this.getServiceBrokerForServiceId(serviceId);
+    } finally {
+      this.serviceBrokerAssociationLock.readLock().unlock();
+    }
+    if (serviceBroker != null) {
+      returnValue = serviceBroker.isPlanBindable(serviceId, planId);
+    }
+    
+    return returnValue;
+  }
+  
   /**
    * Returns a {@link Catalog} for the given {@link ServiceBroker}.
    *
