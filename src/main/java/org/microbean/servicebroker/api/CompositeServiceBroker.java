@@ -16,8 +16,9 @@
  */
 package org.microbean.servicebroker.api;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
+import java.util.ConcurrentModificationException; // for javadoc only
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -129,7 +130,45 @@ public class CompositeServiceBroker extends ServiceBroker {
   /*
    * Instance methods.
    */
+
   
+  @Override
+  public boolean isLive() throws ServiceBrokerException {
+    boolean returnValue = true;
+    final Collection<? extends ServiceBroker> serviceBrokers = this.getServiceBrokers();
+    if (serviceBrokers == null || serviceBrokers.isEmpty()) {
+      returnValue = false;
+    } else {
+      for (final ServiceBroker serviceBroker : serviceBrokers) {
+        if (serviceBroker != null) {
+          if (!serviceBroker.isLive()) {
+            returnValue = false;
+            break;
+          }
+        }
+      }
+    }
+    return returnValue;
+  }
+
+  @Override
+  public boolean isReady() throws ServiceBrokerException {
+    boolean returnValue = true;
+    final Collection<? extends ServiceBroker> serviceBrokers = this.getServiceBrokers();
+    if (serviceBrokers == null || serviceBrokers.isEmpty()) {
+      returnValue = false;
+    } else {
+      for (final ServiceBroker serviceBroker : serviceBrokers) {
+        if (serviceBroker != null) {
+          if (!serviceBroker.isReady()) {
+            returnValue = false;
+            break;
+          }
+        }
+      }
+    }
+    return returnValue;
+  }
 
   /**
    * Returns {@code true} if the {@link #getCatalog()} method's

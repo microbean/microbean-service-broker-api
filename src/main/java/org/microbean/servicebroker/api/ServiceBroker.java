@@ -44,6 +44,14 @@ public abstract class ServiceBroker {
     return planId != null;
   }
 
+  public boolean isLive() throws ServiceBrokerException {
+    return true;
+  }
+
+  public boolean isReady() throws ServiceBrokerException {
+    return true;
+  }
+  
   public abstract boolean isPlanBindable(final String serviceId, final String planId) throws ServiceBrokerException;
   
   public boolean isAsynchronousOnly() {
