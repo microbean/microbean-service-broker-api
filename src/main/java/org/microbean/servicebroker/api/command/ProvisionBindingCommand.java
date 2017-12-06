@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.microbean.servicebroker.api.AbstractStatefulObject;
 
@@ -35,8 +36,8 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
   private final Map<? extends String, ?> parameters;
   
-  public ProvisionBindingCommand(@NotEmpty final String serviceId,
-                                 @NotEmpty final String planId,
+  public ProvisionBindingCommand(@NotNull /* @NotEmpty */ final String serviceId,
+                                 @NotNull /* @NotEmpty */ final String planId,
                                  final BindResource bindResource,
                                  final Map<? extends String, ?> parameters) {
     this(null, null, serviceId, planId, bindResource, parameters);
@@ -44,8 +45,8 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
 
   public ProvisionBindingCommand(final String bindingId,
                                  final String serviceInstanceId,
-                                 @NotEmpty final String serviceId,
-                                 @NotEmpty final String planId,
+                                 @NotNull /* @NotEmpty */ final String serviceId,
+                                 @NotNull /* @NotEmpty */ final String planId,
                                  final BindResource bindResource,
                                  final Map<? extends String, ?> parameters) {
     super(bindingId, serviceInstanceId, serviceId, planId);

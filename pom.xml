@@ -32,7 +32,7 @@
       <dependency>
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
-        <version>2.0.0.Final</version>
+        <version>1.1.0.Final</version>
         <type>jar</type>
       </dependency>
       
@@ -151,8 +151,7 @@
     <findbugs.threshold>Medium</findbugs.threshold>
 
     <!-- maven-javadoc-plugin properties; see https://maven.apache.org/plugins/maven-javadoc-plugin/javadoc-mojo.html -->
-    <links></links>
-    <show>private</show>
+    <links>https://docs.oracle.com/javaee/7/api/</links>
 
     <!-- maven-release-plugin properties -->
     <goals>deploy,site-deploy</goals>

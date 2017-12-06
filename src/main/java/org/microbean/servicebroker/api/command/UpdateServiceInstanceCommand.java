@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatingCommand {
@@ -28,36 +28,36 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
   private final PreviousValues previousValues;
 
   public UpdateServiceInstanceCommand(final String instanceId,                                      
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId,
-                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final PreviousValues previousValues) {
     this(instanceId, null, serviceId, planId, parameters, false, previousValues);
   }
   
   public UpdateServiceInstanceCommand(final String instanceId,                                      
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId,
-                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final boolean acceptsIncomplete,
                                       final PreviousValues previousValues) {
     this(instanceId, null, serviceId, planId, parameters, acceptsIncomplete, previousValues);
   }
 
   public UpdateServiceInstanceCommand(final String instanceId,
-                                      final Map<@NotNull ? extends String, ?> context,
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId,
-                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      final Map</* @NotNull */ ? extends String, ?> context,
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final PreviousValues previousValues) {
     this(instanceId, context, serviceId, planId, parameters, false, previousValues);
   }
   
   public UpdateServiceInstanceCommand(final String instanceId,
-                                      final Map<@NotNull ? extends String, ?> context,
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId,
-                                      final Map<@NotNull ? extends String, ?> parameters,
+                                      final Map</* @NotNull */ ? extends String, ?> context,
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final boolean acceptsIncomplete,
                                       final PreviousValues previousValues) {
     super(instanceId, serviceId, planId, context, parameters, acceptsIncomplete);
@@ -74,7 +74,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
       super(null);
     }
     
-    public Response(@NotEmpty final String operation) {
+    public Response(/* @NotEmpty */ final String operation) {
       super(operation);
     }
     

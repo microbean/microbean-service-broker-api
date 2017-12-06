@@ -18,29 +18,30 @@ package org.microbean.servicebroker.api.command;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
 
   private String instanceId;
 
-  @NotEmpty
+  @NotNull /* @NotEmpty */
   private final String serviceId;
 
-  @NotEmpty
+  @NotNull /* @NotEmpty */
   private final String planId;
 
   private boolean acceptsIncomplete;
 
   protected AbstractServiceInstanceCommand(final String instanceId,
-                                           @NotEmpty final String serviceId,
-                                           @NotEmpty final String planId) {
+                                           @NotNull /* @NotEmpty */ final String serviceId,
+                                           @NotNull /* @NotEmpty */ final String planId) {
     this(instanceId, serviceId, planId, false);
   }
   
   protected AbstractServiceInstanceCommand(final String instanceId,
-                                           @NotEmpty final String serviceId,
-                                           @NotEmpty final String planId,
+                                           @NotNull /* @NotEmpty */ final String serviceId,
+                                           @NotNull /* @NotEmpty */ final String planId,
                                            final boolean acceptsIncomplete) {
     super();
     Objects.requireNonNull(serviceId);
@@ -54,17 +55,17 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
     return this.instanceId;
   }
 
-  public final void setInstanceId(@NotEmpty final String instanceId) {
+  public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {
     Objects.requireNonNull(instanceId);
     this.instanceId = instanceId;
   }
 
-  @NotEmpty
+  @NotNull /* @NotEmpty */
   public final String getServiceId() {
     return this.serviceId;
   }
 
-  @NotEmpty
+  @NotNull /* @NotEmpty */
   public final String getPlanId() {
     return this.planId;
   }

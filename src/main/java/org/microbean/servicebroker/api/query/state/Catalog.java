@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.microbean.servicebroker.api.AbstractStatefulObject;
@@ -33,13 +33,13 @@ import org.microbean.servicebroker.api.AbstractStatefulObject;
 public class Catalog extends AbstractStatefulObject {
 
   @NotNull
-  private final Set<@NotNull ? extends Service> services;
+  private final Set</* @NotNull */ ? extends Service> services;
 
   public Catalog() {
     this(Collections.emptySet());
   }
   
-  public Catalog(final Set<@NotNull ? extends Service> services) {
+  public Catalog(final Set</* @NotNull */ ? extends Service> services) {
     super();
     if (services == null || services.isEmpty()) {
       this.services = Collections.emptySet();
@@ -49,7 +49,7 @@ public class Catalog extends AbstractStatefulObject {
   }
   
   @NotNull
-  public final Set<@NotNull ? extends Service> getServices() {
+  public final Set</* @NotNull */ ? extends Service> getServices() {
     return this.services;
   }
 
@@ -69,13 +69,13 @@ public class Catalog extends AbstractStatefulObject {
     @NotNull
     private final String description;
 
-    private final Set<@NotNull ? extends String> tags;
+    private final Set</* @NotNull */ ? extends String> tags;
 
-    private final Set<@NotNull ? extends String> requires;
+    private final Set</* @NotNull */ ? extends String> requires;
 
     private final boolean bindable;
   
-    private final Map<@NotNull ? extends String, ?> metadata;
+    private final Map</* @NotNull */ ? extends String, ?> metadata;
 
     private DashboardClient dashboardClient;
 
@@ -85,19 +85,19 @@ public class Catalog extends AbstractStatefulObject {
      */
     private final boolean planUpdatable;
 
-    @NotEmpty
-    private final Set<@NotNull ? extends Plan> plans;
+    @NotNull /* @NotEmpty */
+    private final Set</* @NotNull */ ? extends Plan> plans;
 
     public Service(@NotNull final String id, // GUID
                    @NotNull final String name,
                    @NotNull final String description,
-                   final Set<@NotNull ? extends String> tags,
-                   final Set<@NotNull ? extends String> requires,
+                   final Set</* @NotNull */ ? extends String> tags,
+                   final Set</* @NotNull */ ? extends String> requires,
                    final boolean bindable,
-                   final Map<@NotNull ? extends String, ?> metadata,
+                   final Map</* @NotNull */ ? extends String, ?> metadata,
                    final DashboardClient dashboardClient,
                    final boolean planUpdatable,
-                   @NotEmpty final Set<@NotNull ? extends Plan> plans) {
+                   @NotNull /* @NotEmpty */ final Set</* @NotNull */ ? extends Plan> plans) {
       super();
       Objects.requireNonNull(id);
       Objects.requireNonNull(name);
@@ -142,11 +142,11 @@ public class Catalog extends AbstractStatefulObject {
       return this.description;
     }
 
-    public final Set<@NotNull ? extends String> getTags() {
+    public final Set</* @NotNull */ ? extends String> getTags() {
       return this.tags;
     }
 
-    public final Set<@NotNull ? extends String> getRequires() {
+    public final Set</* @NotNull */ ? extends String> getRequires() {
       return this.requires;
     }
 
@@ -166,8 +166,8 @@ public class Catalog extends AbstractStatefulObject {
       return this.planUpdatable;
     }
 
-    @NotEmpty
-    public final Set<@NotNull ? extends Plan> getPlans() {
+    @NotNull /* @NotEmpty */
+    public final Set</* @NotNull */ ? extends Plan> getPlans() {
       return this.plans;
     }
 
@@ -242,13 +242,13 @@ public class Catalog extends AbstractStatefulObject {
       @NotNull
       private final String id;
 
-      @NotEmpty
+      @NotNull /* @NotEmpty */
       private final String name;
 
-      @NotEmpty
+      @NotNull /* @NotEmpty */
       private final String description;
   
-      private final Map<@NotNull ? extends String, ?> metadata;
+      private final Map</* @NotNull */ ? extends String, ?> metadata;
   
       private final boolean free;
   
@@ -273,18 +273,18 @@ public class Catalog extends AbstractStatefulObject {
       private final Schema schemas;
   
       public Plan(@NotNull final String id,
-                  @NotEmpty final String name,
-                  @NotEmpty final String description,
-                  final Map<@NotNull ? extends String, ?> metadata,
+                  @NotNull /* @NotEmpty */ final String name,
+                  @NotNull /* @NotEmpty */ final String description,
+                  final Map</* @NotNull */ ? extends String, ?> metadata,
                   final boolean free,
                   final Boolean bindable) {
         this(id, name, description, metadata, free, bindable, null);
       }
 
       public Plan(@NotNull final String id,
-                  @NotEmpty final String name,
-                  @NotEmpty final String description,
-                  final Map<@NotNull ? extends String, ?> metadata,
+                  @NotNull /* @NotEmpty */ final String name,
+                  @NotNull /* @NotEmpty */ final String description,
+                  final Map</* @NotNull */ ? extends String, ?> metadata,
                   final boolean free,
                   final Boolean bindable,
                   final Schema schemas) {
@@ -320,7 +320,7 @@ public class Catalog extends AbstractStatefulObject {
         return this.description;
       }
 
-      public final Map<@NotNull ? extends String, ?> getMetadata() {
+      public final Map</* @NotNull */ ? extends String, ?> getMetadata() {
         return this.metadata;
       }
 
@@ -423,14 +423,14 @@ public class Catalog extends AbstractStatefulObject {
 
         public static class InputParameters {
 
-          private final Map<@NotNull ? extends String, ?> parameters;
+          private final Map</* @NotNull */ ? extends String, ?> parameters;
 
-          public InputParameters(final Map<@NotNull ? extends String, ?> parameters) {
+          public InputParameters(final Map</* @NotNull */ ? extends String, ?> parameters) {
             super();
             this.parameters = parameters;
           }
 
-          public final Map<@NotNull ? extends String, ?> getParameters() {
+          public final Map</* @NotNull */ ? extends String, ?> getParameters() {
             return this.parameters;
           }
       

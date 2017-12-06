@@ -22,14 +22,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class DeleteBindingCommand extends AbstractBindingCommand {
 
-  public DeleteBindingCommand(@NotEmpty final String bindingId,
-                              @NotEmpty final String serviceInstanceId,
-                              @NotEmpty final String serviceId,
-                              @NotEmpty final String planId) {
+  public DeleteBindingCommand(@NotNull /* @NotEmpty */ final String bindingId,
+                              @NotNull /* @NotEmpty */ final String serviceInstanceId,
+                              @NotNull /* @NotEmpty */ final String serviceId,
+                              @NotNull /* @NotEmpty */ final String planId) {
     super(bindingId, serviceInstanceId, serviceId, planId);
   }
 

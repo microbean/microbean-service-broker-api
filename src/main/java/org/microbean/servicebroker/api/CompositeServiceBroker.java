@@ -34,7 +34,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.microbean.servicebroker.api.query.InvalidServiceBrokerQueryException;
@@ -449,7 +449,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * @exception NullPointerException if {@code serviceId} is {@code
    * null}
    */
-  protected ServiceBroker getServiceBrokerForServiceId(@NotEmpty final String serviceId) {
+  protected ServiceBroker getServiceBrokerForServiceId(@NotNull /* @NotEmpty */ final String serviceId) {
     Objects.requireNonNull(serviceId);
     return this.serviceBrokersByServiceId.get(serviceId);
   }
@@ -482,7 +482,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * @exception IllegalArgumentException if {@code serviceBroker} is
    * this very {@link CompositeServiceBroker}
    */
-  protected ServiceBroker putServiceBrokerForServiceId(@NotEmpty final String serviceId, @NotNull final ServiceBroker serviceBroker) {
+  protected ServiceBroker putServiceBrokerForServiceId(@NotNull /* @NotEmpty */ final String serviceId, @NotNull final ServiceBroker serviceBroker) {
     Objects.requireNonNull(serviceId);
     Objects.requireNonNull(serviceBroker);
     if (serviceBroker == this) {

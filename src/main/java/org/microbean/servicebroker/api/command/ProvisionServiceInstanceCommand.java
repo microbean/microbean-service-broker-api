@@ -21,7 +21,8 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMutatingCommand {
 
@@ -30,41 +31,41 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
   private final String spaceGuid;
 
   public ProvisionServiceInstanceCommand(final String instanceId,
-                                         @NotEmpty final String serviceId,
-                                         @NotEmpty final String planId,
+                                         @NotNull /* @NotEmpty */ final String serviceId,
+                                         @NotNull /* @NotEmpty */ final String planId,
                                          final Map<? extends String, ?> parameters,
-                                         @NotEmpty final String organizationGuid,
-                                         @NotEmpty final String spaceGuid) {
+                                         @NotNull /* @NotEmpty */ final String organizationGuid,
+                                         @NotNull /* @NotEmpty */ final String spaceGuid) {
     this(instanceId, serviceId, planId, null, false, organizationGuid, spaceGuid, parameters);
   }
   
   public ProvisionServiceInstanceCommand(final String instanceId,
-                                         @NotEmpty final String serviceId,
-                                         @NotEmpty final String planId,
+                                         @NotNull /* @NotEmpty */ final String serviceId,
+                                         @NotNull /* @NotEmpty */ final String planId,
                                          final Map<? extends String, ?> parameters,
                                          final boolean acceptsIncomplete,
-                                         @NotEmpty final String organizationGuid,
-                                         @NotEmpty final String spaceGuid) {
+                                         @NotNull /* @NotEmpty */ final String organizationGuid,
+                                         @NotNull /* @NotEmpty */ final String spaceGuid) {
     this(instanceId, serviceId, planId, null, acceptsIncomplete, organizationGuid, spaceGuid, parameters);
   }
   
   public ProvisionServiceInstanceCommand(final String instanceId,
-                                         @NotEmpty final String serviceId,
-                                         @NotEmpty final String planId,
+                                         @NotNull /* @NotEmpty */ final String serviceId,
+                                         @NotNull /* @NotEmpty */ final String planId,
                                          final Map<? extends String, ?> context,
-                                         @NotEmpty final String organizationGuid,
-                                         @NotEmpty final String spaceGuid,
+                                         @NotNull /* @NotEmpty */ final String organizationGuid,
+                                         @NotNull /* @NotEmpty */ final String spaceGuid,
                                          final Map<? extends String, ?> parameters) {
     this(instanceId, serviceId, planId, context, false, organizationGuid, spaceGuid, parameters);
   }
   
   public ProvisionServiceInstanceCommand(final String instanceId,
-                                         @NotEmpty final String serviceId,
-                                         @NotEmpty final String planId,
+                                         @NotNull /* @NotEmpty */ final String serviceId,
+                                         @NotNull /* @NotEmpty */ final String planId,
                                          final Map<? extends String, ?> context,
                                          final boolean acceptsIncomplete,
-                                         @NotEmpty final String organizationGuid,
-                                         @NotEmpty final String spaceGuid,
+                                         @NotNull /* @NotEmpty */ final String organizationGuid,
+                                         @NotNull /* @NotEmpty */ final String spaceGuid,
                                          final Map<? extends String, ?> parameters) {
     super(instanceId, serviceId, planId, parameters, acceptsIncomplete);
     Objects.requireNonNull(planId);
@@ -96,11 +97,11 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
       this.dashboardUri = dashboardUri;
     }
 
-    public Response(@NotEmpty final String operation) {
+    public Response(@NotNull /* @NotEmpty */ final String operation) {
       this(null, operation);
     }
     
-    public Response(final URI dashboardUri, @NotEmpty final String operation) {
+    public Response(final URI dashboardUri, @NotNull /* @NotEmpty */ final String operation) {
       super(operation);
       this.dashboardUri = dashboardUri;
     }

@@ -22,19 +22,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand {
 
   public DeleteServiceInstanceCommand(final String instanceId,
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId) {
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId) {
     this(instanceId, serviceId, planId, false);
   }
   
   public DeleteServiceInstanceCommand(final String instanceId,
-                                      @NotEmpty final String serviceId,
-                                      @NotEmpty final String planId,
+                                      @NotNull /* @NotEmpty */ final String serviceId,
+                                      @NotNull /* @NotEmpty */ final String planId,
                                       final boolean acceptsIncomplete) {
     super(instanceId, serviceId, planId, acceptsIncomplete);
   }
@@ -48,7 +49,7 @@ public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand
       this.operation = null;
     }
     
-    public Response(@NotEmpty final String operation) {
+    public Response(@NotNull /* @NotEmpty */ final String operation) {
       super();
       this.operation = operation;
     }

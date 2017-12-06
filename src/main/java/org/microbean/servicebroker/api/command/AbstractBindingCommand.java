@@ -18,7 +18,8 @@ package org.microbean.servicebroker.api.command;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public abstract class AbstractBindingCommand extends AbstractCommand {
 
@@ -32,8 +33,8 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
   
   protected AbstractBindingCommand(final String bindingId,
                                    final String instanceId,
-                                   @NotEmpty final String serviceId,
-                                   @NotEmpty final String planId) {
+                                   @NotNull /* @NotEmpty */ final String serviceId,
+                                   @NotNull /* @NotEmpty */ final String planId) {
     super();
     Objects.requireNonNull(serviceId);
     Objects.requireNonNull(planId);
@@ -47,7 +48,7 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
     return this.bindingId;
   }
 
-  public final void setBindingId(@NotEmpty final String bindingId) {
+  public final void setBindingId(@NotNull /* @NotEmpty */ final String bindingId) {
     this.bindingId = Objects.requireNonNull(bindingId);
   }
 
@@ -55,7 +56,7 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
     return this.instanceId;
   }
 
-  public final void setInstanceId(@NotEmpty final String instanceId) {
+  public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {
     this.instanceId = Objects.requireNonNull(instanceId);
   }
   
