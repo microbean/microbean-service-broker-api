@@ -153,8 +153,9 @@
     <!-- maven-javadoc-plugin properties; see https://maven.apache.org/plugins/maven-javadoc-plugin/javadoc-mojo.html -->
     <links>https://docs.oracle.com/javaee/7/api/</links>
 
-    <!-- maven-release-plugin properties -->
+    <!-- maven-release-plugin properties; see http://maven.apache.org/maven-release/maven-release-plugin/ -->
     <goals>deploy,site-deploy</goals>
+    <tagNameFormat>v@{project.version}</tagNameFormat>
     
   </properties>
   
