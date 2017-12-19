@@ -44,7 +44,6 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
                                            @NotNull /* @NotEmpty */ final String planId,
                                            final boolean acceptsIncomplete) {
     super();
-    Objects.requireNonNull(serviceId);
     this.instanceId = instanceId;
     this.serviceId = serviceId;
     this.planId = planId;
@@ -56,7 +55,7 @@ public abstract class AbstractServiceInstanceCommand extends AbstractCommand {
   }
 
   public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {
-    Objects.requireNonNull(instanceId);
+    Objects.requireNonNull(instanceId, () -> "instanceId must not be null");
     this.instanceId = instanceId;
   }
 

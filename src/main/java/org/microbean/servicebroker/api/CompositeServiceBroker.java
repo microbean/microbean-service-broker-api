@@ -237,7 +237,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * @see #handleAddServiceBroker(ServiceBroker)
    */
   public final boolean addServiceBroker(@NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -250,7 +250,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   }
 
   protected boolean handleAddServiceBroker(@NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -287,7 +287,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * @see #removeServices(ServiceBroker)
    */
   public final boolean removeServiceBroker(@NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceBroker);    
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -306,7 +306,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   }
 
   protected boolean handleRemoveServiceBroker(@NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -410,7 +410,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * this {@link CompositeServiceBroker}
    */
   protected void removeServices(@NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -450,7 +450,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    * null}
    */
   protected ServiceBroker getServiceBrokerForServiceId(@NotNull /* @NotEmpty */ final String serviceId) {
-    Objects.requireNonNull(serviceId);
+    Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
     return this.serviceBrokersByServiceId.get(serviceId);
   }
 
@@ -483,8 +483,8 @@ public class CompositeServiceBroker extends ServiceBroker {
    * this very {@link CompositeServiceBroker}
    */
   protected ServiceBroker putServiceBrokerForServiceId(@NotNull /* @NotEmpty */ final String serviceId, @NotNull final ServiceBroker serviceBroker) {
-    Objects.requireNonNull(serviceId);
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -493,8 +493,8 @@ public class CompositeServiceBroker extends ServiceBroker {
 
   @Override
   public boolean isPlanBindable(final String serviceId, final String planId) throws ServiceBrokerException {
-    Objects.requireNonNull(serviceId);
-    Objects.requireNonNull(planId);
+    Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+    Objects.requireNonNull(planId, () -> "planId must not be null");
 
     boolean returnValue = false;
     
@@ -544,7 +544,7 @@ public class CompositeServiceBroker extends ServiceBroker {
    */
   @NotNull
   protected Catalog getCatalog(@NotNull final ServiceBroker serviceBroker) throws ServiceBrokerException {
-    Objects.requireNonNull(serviceBroker);
+    Objects.requireNonNull(serviceBroker, () -> "serviceBroker must not be null");
     if (serviceBroker == this) {
       throw new IllegalArgumentException("serviceBroker == this");
     }
@@ -554,7 +554,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   @NotNull
   @Override
   public final LastOperation getLastOperation(final LastOperationQuery lastOperationQuery) throws ServiceBrokerException {
-    Objects.requireNonNull(lastOperationQuery);    
+    Objects.requireNonNull(lastOperationQuery, () -> "lastOperationQuery must not be null");
     LastOperation returnValue = null;
     final String serviceId = lastOperationQuery.getServiceId();
     if (serviceId != null) {
@@ -697,7 +697,7 @@ public class CompositeServiceBroker extends ServiceBroker {
 
   @NotNull
   public ProvisionBindingCommand.Response execute(@NotNull final ProvisionBindingCommand command) throws ServiceBrokerException {
-    Objects.requireNonNull(command);
+    Objects.requireNonNull(command, () -> "command must not be null");
     ProvisionBindingCommand.Response returnValue = null;
     final String serviceId = command.getServiceId();
     if (serviceId != null) {
@@ -720,7 +720,7 @@ public class CompositeServiceBroker extends ServiceBroker {
 
   @NotNull
   public DeleteBindingCommand.Response execute(@NotNull final DeleteBindingCommand command) throws ServiceBrokerException {
-    Objects.requireNonNull(command);
+    Objects.requireNonNull(command, () -> "command must not be null");
     DeleteBindingCommand.Response returnValue = null;
     final String serviceId = command.getServiceId();
     if (serviceId != null) {
@@ -744,7 +744,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   @NotNull
   @Override
   public DeleteServiceInstanceCommand.Response execute(@NotNull final DeleteServiceInstanceCommand command) throws ServiceBrokerException {
-    Objects.requireNonNull(command);
+    Objects.requireNonNull(command, () -> "command must not be null");
     DeleteServiceInstanceCommand.Response returnValue = null;
     final String serviceId = command.getServiceId();
     if (serviceId != null) {
@@ -768,7 +768,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   @NotNull
   @Override
   public ProvisionServiceInstanceCommand.Response execute(@NotNull final ProvisionServiceInstanceCommand command) throws ServiceBrokerException {
-    Objects.requireNonNull(command);
+    Objects.requireNonNull(command, () -> "command must not be null");
     ProvisionServiceInstanceCommand.Response returnValue = null;
     final String serviceId = command.getServiceId();
     if (serviceId != null) {
@@ -792,7 +792,7 @@ public class CompositeServiceBroker extends ServiceBroker {
   @NotNull
   @Override
   public UpdateServiceInstanceCommand.Response execute(@NotNull final UpdateServiceInstanceCommand command) throws ServiceBrokerException {
-    Objects.requireNonNull(command);
+    Objects.requireNonNull(command, () -> "command must not be null");
     UpdateServiceInstanceCommand.Response returnValue = null;
     final String serviceId = command.getServiceId();
     if (serviceId != null) {

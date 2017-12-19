@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 // import javax.validation.constraints.NotEmpty;
@@ -38,6 +39,12 @@ public class DeleteServiceInstanceCommand extends AbstractServiceInstanceCommand
                                       @NotNull /* @NotEmpty */ final String planId,
                                       final boolean acceptsIncomplete) {
     super(instanceId, serviceId, planId, acceptsIncomplete);
+    if (!Boolean.getBoolean("org.microbean.servicebroker.api.lenient")) {
+      // The specification requires non-null serviceId and planId
+      // parameters.  However, some clients do not supply them.
+      Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+      Objects.requireNonNull(planId, () -> "planId must not be null");
+    }
   }
 
   public static class Response extends org.microbean.servicebroker.api.command.AbstractResponse {

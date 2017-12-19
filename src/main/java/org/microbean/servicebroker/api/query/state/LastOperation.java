@@ -34,7 +34,7 @@ public class LastOperation extends AbstractStatefulObject {
   
   public LastOperation(@NotNull final State state, final String description) {
     super();
-    Objects.requireNonNull(state);
+    Objects.requireNonNull(state, () -> "state must not be null");
     this.state = state;
     this.description = description;
   }
@@ -61,7 +61,7 @@ public class LastOperation extends AbstractStatefulObject {
     private final String value;
     
     State(final String value) {
-      Objects.requireNonNull(value);
+      Objects.requireNonNull(value, () -> "value must not be null");
       this.value = value;
     }
 

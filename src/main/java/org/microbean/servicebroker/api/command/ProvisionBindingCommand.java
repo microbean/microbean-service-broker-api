@@ -50,6 +50,10 @@ public class ProvisionBindingCommand extends AbstractBindingCommand {
                                  final BindResource bindResource,
                                  final Map<? extends String, ?> parameters) {
     super(bindingId, serviceInstanceId, serviceId, planId);
+    if (!Boolean.getBoolean("org.microbean.servicebroker.api.lenient")) {
+      Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+      Objects.requireNonNull(planId, () -> "planId must not be null");
+    }
     this.bindResource = bindResource;
     if (parameters == null || parameters.isEmpty()) {
       this.parameters = Collections.emptyMap();

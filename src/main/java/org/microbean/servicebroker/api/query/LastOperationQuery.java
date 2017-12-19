@@ -52,7 +52,8 @@ public class LastOperationQuery extends AbstractQuery {
   }
 
   public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {
-    this.instanceId = Objects.requireNonNull(instanceId);
+    Objects.requireNonNull(instanceId, () -> "instanceId must not be null");
+    this.instanceId = instanceId;
   }
 
   public final String getPlanId() {

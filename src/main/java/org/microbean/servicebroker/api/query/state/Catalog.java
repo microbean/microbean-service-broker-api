@@ -99,10 +99,10 @@ public class Catalog extends AbstractStatefulObject {
                    final boolean planUpdatable,
                    @NotNull /* @NotEmpty */ final Set</* @NotNull */ ? extends Plan> plans) {
       super();
-      Objects.requireNonNull(id);
-      Objects.requireNonNull(name);
-      Objects.requireNonNull(description);
-      Objects.requireNonNull(plans);    
+      Objects.requireNonNull(id, () -> "id must not be null");
+      Objects.requireNonNull(name, () -> "name must not be null");
+      Objects.requireNonNull(description, () -> "description must not be null");
+      Objects.requireNonNull(plans, () -> "plans must not be null");
       this.id = id;
       this.name = name;
       this.description = description;
@@ -289,9 +289,9 @@ public class Catalog extends AbstractStatefulObject {
                   final Boolean bindable,
                   final Schema schemas) {
         super();
-        Objects.requireNonNull(id);
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(description);
+        Objects.requireNonNull(id, () -> "id must not be null");
+        Objects.requireNonNull(name, () -> "name must not be null");
+        Objects.requireNonNull(description, () -> "description must not be null");
         this.id = id;
         this.name = name;
         this.description = description;

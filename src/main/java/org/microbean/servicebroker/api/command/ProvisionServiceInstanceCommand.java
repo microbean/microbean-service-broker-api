@@ -68,9 +68,12 @@ public class ProvisionServiceInstanceCommand extends AbstractServiceInstanceMuta
                                          @NotNull /* @NotEmpty */ final String spaceGuid,
                                          final Map<? extends String, ?> parameters) {
     super(instanceId, serviceId, planId, parameters, acceptsIncomplete);
-    Objects.requireNonNull(planId);
-    Objects.requireNonNull(organizationGuid);
-    Objects.requireNonNull(spaceGuid);
+    if (!Boolean.getBoolean("org.microbean.servicebroker.api.lenient")) {
+      Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+      Objects.requireNonNull(planId, () -> "planId must not be null");
+      Objects.requireNonNull(organizationGuid, () -> "organizationGuid must not be null");
+      Objects.requireNonNull(spaceGuid, () -> "spaceGuid must not be null");
+    }
     this.organizationGuid = organizationGuid;
     this.spaceGuid = spaceGuid;
   }

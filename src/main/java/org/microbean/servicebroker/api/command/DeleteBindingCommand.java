@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 // import javax.validation.constraints.NotEmpty;
@@ -32,6 +33,10 @@ public class DeleteBindingCommand extends AbstractBindingCommand {
                               @NotNull /* @NotEmpty */ final String serviceId,
                               @NotNull /* @NotEmpty */ final String planId) {
     super(bindingId, serviceInstanceId, serviceId, planId);
+    if (!Boolean.getBoolean("org.microbean.servicebroker.api.lenient")) {
+      Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+      Objects.requireNonNull(planId, () -> "planId must not be null");
+    }
   }
 
   public static class Response extends org.microbean.servicebroker.api.command.AbstractResponse {

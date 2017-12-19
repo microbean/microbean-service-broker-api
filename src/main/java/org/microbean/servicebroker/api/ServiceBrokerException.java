@@ -39,7 +39,7 @@ public class ServiceBrokerException extends Exception {
   }
 
   public <T extends Throwable> T getRootCause(final Class<T> type) {
-    Objects.requireNonNull(type);
+    Objects.requireNonNull(type, () -> "type must not be null");
     Throwable returnValue = this;
     Throwable cause = null;
     while ((cause = returnValue.getCause()) != null) {

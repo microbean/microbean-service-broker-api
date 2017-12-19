@@ -19,6 +19,7 @@ package org.microbean.servicebroker.api.command;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 // import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
 
   public UpdateServiceInstanceCommand(final String instanceId,                                      
                                       @NotNull /* @NotEmpty */ final String serviceId,
-                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final String planId,
                                       final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final PreviousValues previousValues) {
     this(instanceId, null, serviceId, planId, parameters, false, previousValues);
@@ -37,7 +38,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
   
   public UpdateServiceInstanceCommand(final String instanceId,                                      
                                       @NotNull /* @NotEmpty */ final String serviceId,
-                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final String planId,
                                       final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final boolean acceptsIncomplete,
                                       final PreviousValues previousValues) {
@@ -47,7 +48,7 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
   public UpdateServiceInstanceCommand(final String instanceId,
                                       final Map</* @NotNull */ ? extends String, ?> context,
                                       @NotNull /* @NotEmpty */ final String serviceId,
-                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final String planId,
                                       final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final PreviousValues previousValues) {
     this(instanceId, context, serviceId, planId, parameters, false, previousValues);
@@ -56,11 +57,14 @@ public class UpdateServiceInstanceCommand extends AbstractServiceInstanceMutatin
   public UpdateServiceInstanceCommand(final String instanceId,
                                       final Map</* @NotNull */ ? extends String, ?> context,
                                       @NotNull /* @NotEmpty */ final String serviceId,
-                                      @NotNull /* @NotEmpty */ final String planId,
+                                      final String planId,
                                       final Map</* @NotNull */ ? extends String, ?> parameters,
                                       final boolean acceptsIncomplete,
                                       final PreviousValues previousValues) {
     super(instanceId, serviceId, planId, context, parameters, acceptsIncomplete);
+    if (!Boolean.getBoolean("org.microbean.servicebroker.api.lenient")) {
+      Objects.requireNonNull(serviceId, () -> "serviceId must not be null");
+    }
     this.previousValues = previousValues;
   }
 

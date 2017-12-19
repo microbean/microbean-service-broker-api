@@ -36,8 +36,6 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
                                    @NotNull /* @NotEmpty */ final String serviceId,
                                    @NotNull /* @NotEmpty */ final String planId) {
     super();
-    Objects.requireNonNull(serviceId);
-    Objects.requireNonNull(planId);
     this.bindingId = bindingId;
     this.instanceId = instanceId;
     this.serviceId = serviceId;
@@ -49,7 +47,8 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
   }
 
   public final void setBindingId(@NotNull /* @NotEmpty */ final String bindingId) {
-    this.bindingId = Objects.requireNonNull(bindingId);
+    Objects.requireNonNull(bindingId, () -> "bindingId must not be null");
+    this.bindingId = bindingId;
   }
 
   public final String getInstanceId() {
@@ -57,7 +56,8 @@ public abstract class AbstractBindingCommand extends AbstractCommand {
   }
 
   public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {
-    this.instanceId = Objects.requireNonNull(instanceId);
+    Objects.requireNonNull(instanceId, () -> "instanceId must not be null");
+    this.instanceId = instanceId;
   }
   
   public final String getServiceId() {
