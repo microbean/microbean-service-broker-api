@@ -44,28 +44,28 @@
 <span class="sourceLineNo">036</span>                                   @NotNull /* @NotEmpty */ final String serviceId,<a name="line.36"></a>
 <span class="sourceLineNo">037</span>                                   @NotNull /* @NotEmpty */ final String planId) {<a name="line.37"></a>
 <span class="sourceLineNo">038</span>    super();<a name="line.38"></a>
-<span class="sourceLineNo">039</span>    Objects.requireNonNull(serviceId);<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    Objects.requireNonNull(planId);<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    this.bindingId = bindingId;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    this.instanceId = instanceId;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    this.serviceId = serviceId;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    this.planId = planId;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  }<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  public final String getBindingId() {<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    return this.bindingId;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  }<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  public final void setBindingId(@NotNull /* @NotEmpty */ final String bindingId) {<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    this.bindingId = Objects.requireNonNull(bindingId);<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>  public final String getInstanceId() {<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    return this.instanceId;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  }<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    this.instanceId = Objects.requireNonNull(instanceId);<a name="line.60"></a>
+<span class="sourceLineNo">039</span>    this.bindingId = bindingId;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    this.instanceId = instanceId;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    this.serviceId = serviceId;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    this.planId = planId;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  }<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  public final String getBindingId() {<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    return this.bindingId;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  }<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  public final void setBindingId(@NotNull /* @NotEmpty */ final String bindingId) {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    Objects.requireNonNull(bindingId, () -&gt; "bindingId must not be null");<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    this.bindingId = bindingId;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public final String getInstanceId() {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    return this.instanceId;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public final void setInstanceId(@NotNull /* @NotEmpty */ final String instanceId) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    Objects.requireNonNull(instanceId, () -&gt; "instanceId must not be null");<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    this.instanceId = instanceId;<a name="line.60"></a>
 <span class="sourceLineNo">061</span>  }<a name="line.61"></a>
 <span class="sourceLineNo">062</span>  <a name="line.62"></a>
 <span class="sourceLineNo">063</span>  public final String getServiceId() {<a name="line.63"></a>

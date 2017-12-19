@@ -107,10 +107,10 @@
 <span class="sourceLineNo">099</span>                   final boolean planUpdatable,<a name="line.99"></a>
 <span class="sourceLineNo">100</span>                   @NotNull /* @NotEmpty */ final Set&lt;/* @NotNull */ ? extends Plan&gt; plans) {<a name="line.100"></a>
 <span class="sourceLineNo">101</span>      super();<a name="line.101"></a>
-<span class="sourceLineNo">102</span>      Objects.requireNonNull(id);<a name="line.102"></a>
-<span class="sourceLineNo">103</span>      Objects.requireNonNull(name);<a name="line.103"></a>
-<span class="sourceLineNo">104</span>      Objects.requireNonNull(description);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>      Objects.requireNonNull(plans);    <a name="line.105"></a>
+<span class="sourceLineNo">102</span>      Objects.requireNonNull(id, () -&gt; "id must not be null");<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      Objects.requireNonNull(name, () -&gt; "name must not be null");<a name="line.103"></a>
+<span class="sourceLineNo">104</span>      Objects.requireNonNull(description, () -&gt; "description must not be null");<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      Objects.requireNonNull(plans, () -&gt; "plans must not be null");<a name="line.105"></a>
 <span class="sourceLineNo">106</span>      this.id = id;<a name="line.106"></a>
 <span class="sourceLineNo">107</span>      this.name = name;<a name="line.107"></a>
 <span class="sourceLineNo">108</span>      this.description = description;<a name="line.108"></a>
@@ -297,9 +297,9 @@
 <span class="sourceLineNo">289</span>                  final Boolean bindable,<a name="line.289"></a>
 <span class="sourceLineNo">290</span>                  final Schema schemas) {<a name="line.290"></a>
 <span class="sourceLineNo">291</span>        super();<a name="line.291"></a>
-<span class="sourceLineNo">292</span>        Objects.requireNonNull(id);<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        Objects.requireNonNull(name);<a name="line.293"></a>
-<span class="sourceLineNo">294</span>        Objects.requireNonNull(description);<a name="line.294"></a>
+<span class="sourceLineNo">292</span>        Objects.requireNonNull(id, () -&gt; "id must not be null");<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        Objects.requireNonNull(name, () -&gt; "name must not be null");<a name="line.293"></a>
+<span class="sourceLineNo">294</span>        Objects.requireNonNull(description, () -&gt; "description must not be null");<a name="line.294"></a>
 <span class="sourceLineNo">295</span>        this.id = id;<a name="line.295"></a>
 <span class="sourceLineNo">296</span>        this.name = name;<a name="line.296"></a>
 <span class="sourceLineNo">297</span>        this.description = description;<a name="line.297"></a>

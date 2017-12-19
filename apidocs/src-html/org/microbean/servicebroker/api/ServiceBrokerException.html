@@ -47,7 +47,7 @@
 <span class="sourceLineNo">039</span>  }<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>  public &lt;T extends Throwable&gt; T getRootCause(final Class&lt;T&gt; type) {<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    Objects.requireNonNull(type);<a name="line.42"></a>
+<span class="sourceLineNo">042</span>    Objects.requireNonNull(type, () -&gt; "type must not be null");<a name="line.42"></a>
 <span class="sourceLineNo">043</span>    Throwable returnValue = this;<a name="line.43"></a>
 <span class="sourceLineNo">044</span>    Throwable cause = null;<a name="line.44"></a>
 <span class="sourceLineNo">045</span>    while ((cause = returnValue.getCause()) != null) {<a name="line.45"></a>
